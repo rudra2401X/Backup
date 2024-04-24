@@ -4102,8 +4102,9 @@ local Misc = Library:AddTab("Miscellaneous","16928743419")
 --- ThÃ´ng Tin
 NguyenTien:AddSeperator("Spectrum Detaiils")
 NguyenTien:AddLabel("Founder: xZPUHigh (ZPU)")
-NguyenTien:AddLabel("Developer: Vxc4s (Main), Federal & mJayR (Support Code)")
-NguyenTien:AddLabel("Interface UI: French Dog & Sally")
+NguyenTien:AddLabel("Developer: Vxc4s (Main), Federal & Sally")
+NguyenTien:AddLabel("Support Code: JackySon & x2Skyz")
+NguyenTien:AddLabel("Protect Code: SixZens (LOVE U)")
 NguyenTien:AddLabel("Hey! Join us Discord For Benefit & News!")
 
 NguyenTien:AddSeperator("Social Network")
@@ -14507,3 +14508,6 @@ Misc:AddSeperator("Just Some Misc")
     end)
     
 
+
+    end
+})
