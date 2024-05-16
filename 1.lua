@@ -1,6 +1,4 @@
-hookfunction(hookfunction,function(...)
-    return print("WHAT UP STUPID! I'M ZPU AND NOW I GET YOU IP ADDRESS :D\n SO YOU FUCKING CAN'T CRACK AND SKID MY SCRIPT IDIOT ")
-end)
+
 
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/SetUP.lua"))()
