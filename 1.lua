@@ -1,5 +1,5 @@
 hookfunction(hookfunction,function(...)
-    return nil
+    return print("WHAT UP NIGGA")
 end)
 
 warn("Anti AFK = Enabled :D")
