@@ -274,8 +274,8 @@ ThunderToggleUI.TextSize = 14.000
 ThunderToggleUI.Draggable = true
 ThunderToggleUI.MouseButton1Click:Connect(
     function()
-        game:GetService("VirtualInputManager"):SendKeyEvent(true, "Home", false, game)
-        game:GetService("VirtualInputManager"):SendKeyEvent(false, "Home", false, game)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "RightControl", false, game)
+        game:GetService("VirtualInputManager"):SendKeyEvent(false, "RightControl", false, game)
     end
 )
 
@@ -305,12 +305,12 @@ local Window =
     {
         Title = "Project Spectrum 8.0",
         SubTitle = "by xZPUHigh & Exclusive Edition // discord.gg/zpu",
-        TabWidth = 160,
-        Size = UDim2.fromOffset(580, 460),
+        TabWidth = 100,
+        Size = UDim2.fromOffset(200, 350),
         Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
         Transparency = false,
         Theme = "Amethyst",
-        MinimizeKey = Enum.KeyCode.Home -- Used when theres no MinimizeKeybind
+        MinimizeKey = Enum.KeyCode.RightControl -- Used when theres no MinimizeKeybind
     }
 )
 
