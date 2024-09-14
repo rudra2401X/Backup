@@ -1,3 +1,15 @@
+
+local args = {
+    [1] = "ChangeValue",
+    [2] = {
+        ["Name"] = "MusicVolume",
+        ["Value"] = 0
+    }
+}
+
+game:GetService("ReplicatedStorage").Networking.Settings.SettingsEvent:FireServer(unpack(args))
+
+
 local notificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/laagginq/ui-libraries/main/xaxas-notification/src.lua"))();
 local notifications = notificationLibrary.new({            
     NotificationLifetime = 999, 
@@ -79,6 +91,16 @@ sendTutorialEvent("ClaimTutorial", "EnemyIndexTutorial")
 sendTutorialEvent("ClaimTutorial", "BattlePassTutorial")
 sendTutorialEvent("ClaimTutorial", "PlayTutorial")
 wait(1)
+
+-- Skip Summon Animation
+
+local args = {
+    [1] = "Toggle",
+    [2] = "SkipSummonAnimation"
+}
+
+game:GetService("ReplicatedStorage").Networking.Settings.SettingsEvent:FireServer(unpack(args))
+
 
 -- Script 4: GACHA
 -- Script 1: Menjalankan Toggle Rare
