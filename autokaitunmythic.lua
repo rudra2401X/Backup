@@ -91,14 +91,6 @@ local function toggleRare()
     game:GetService("ReplicatedStorage").Networking.Settings.SettingsEvent:FireServer(unpack(args))
 end
 
-local function toggleRare()
-    local args = {
-        [1] = "Toggle",
-        [2] = "Epic"
-    }
-    game:GetService("ReplicatedStorage").Networking.Settings.SettingsEvent:FireServer(unpack(args))
-end
-
 
 -- Script 2: Menjalankan SummonOne
 local function summonOne(times)
