@@ -43,29 +43,7 @@ selectRoku()
 removeUnits()
 wait(1) -- Memberi waktu sebelum lanjut ke script berikutnya
 
--- Script 2: SCClaimCodes
-print("Claim CODES")
-function sendCode(code)
-    local args = {
-        [1] = code
-    }
-    game:GetService("ReplicatedStorage").Networking.CodesEvent:FireServer(unpack(args))
-end
-
--- Mengirim kode-kode yang diberikan
-sendCode("RELEASE")
-sendCode("DELAY")
-sendCode("10KLIKES")
-sendCode("100KLIKES")
-sendCode("200KLIKES")
-sendCode("300KLIKES")
-sendCode("400KLIKES")
-sendCode("AV500KLIKES")
-sendCode("600KLIKES")
-sendCode("10MVISITS")
-sendCode("25MVISITS")
-sendCode("AV50MIL")
-sendCode("70MVISITS")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Storage/main/code.lua"))()
 wait(1) -- Sesuaikan durasi jika perlu
 
 -- Script 3: SCTutorClaim
