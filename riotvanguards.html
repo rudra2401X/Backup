@@ -1,5 +1,3 @@
-
-
 hookfunction(hookfunction,function(...)
     return print("WHAT UP STUPID! I'M ZPU AND NOW I GET YOU IP ADDRESS :D\n SO YOU FUCKING CAN'T CRACK AND SKID MY SCRIPT IDIOT ")
 end)
@@ -90,7 +88,7 @@ print("Last Updated 04/04/24")
 ]]
 
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen") == nil and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LobbyLoadingScreen") == nil
-if game:GetService("CoreGui"):FindFirstChild("Project Spectrum") then return end
+if game:GetService("CoreGui"):FindFirstChild("CrazyDay") then return end
 
 local Loader = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/geninteface.lua"))()
 local Saveed = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/fluentsaveconfig.lua"))()
@@ -223,11 +221,11 @@ task.spawn(
         end
 
         do
-            SetFile:CheckFolder("Project Spectrum")
-            SetFile:CheckFolder("Project Spectrum/Anime Vanguards")
-            SetFile:CheckFolder("Project Spectrum/Anime Vanguards/Macro")
+            SetFile:CheckFolder("CrazyDay")
+            SetFile:CheckFolder("CrazyDay/Anime Vanguards")
+            SetFile:CheckFolder("CrazyDay/Anime Vanguards/Macro")
 
-            SetFile:CheckFile("Project Spectrum/Anime Vanguards/Macro/Starter.json", {Data = {}})
+            SetFile:CheckFile("CrazyDay/Anime Vanguards/Macro/Starter.json", {Data = {}})
         end
     end
 )
@@ -605,7 +603,7 @@ Tabs_Secs[3][1]:AddDropdown(
     "Macro File",
     {
         Title = "Select Files",
-        Values = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"),
+        Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
         Default = "Starter"
     }
 )
@@ -754,7 +752,7 @@ for i = 1, #Game.Story_Mode do
         "Story"..Game.Story_Mode[i],
         {
             Title = Game.Story_Mode[i],
-            Values = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"),
+            Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
             AllowNull = true,
             Default = nil
         }
@@ -764,7 +762,7 @@ for i = 1, #Game.Story_Mode do
         "Challenge"..Game.Story_Mode[i],
         {
             Title = Game.Story_Mode[i],
-            Values = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"),
+            Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
             AllowNull = true,
             Default = nil
         }
@@ -774,7 +772,7 @@ for i = 1, #Game.Story_Mode do
         "Paragon"..Game.Story_Mode[i],
         {
             Title = Game.Story_Mode[i],
-            Values = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"),
+            Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
             AllowNull = true,
             Default = nil
         }
@@ -786,7 +784,7 @@ for i = 1, #Game.Legend_Stage_Mode do
         "LegendStage"..Game.Legend_Stage_Mode[i],
         {
             Title = Game.Legend_Stage_Mode[i],
-            Values = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"),
+            Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
             AllowNull = true,
             Default = nil
         }
@@ -795,11 +793,11 @@ end
 
 do
     Setting:SetLibrary(Loader)
-    Setting:SetFolder("Project Spectrum/Anime Vanguards/"..game:GetService("Players"):GetUserIdFromNameAsync(game:GetService("Players").LocalPlayer.Name))
+    Setting:SetFolder("CrazyDay/Anime Vanguards/"..game:GetService("Players"):GetUserIdFromNameAsync(game:GetService("Players").LocalPlayer.Name))
     Setting:BuildInterfaceSection(Tabs_Main[#Tabs_Main])
 
     Saveed:SetLibrary(Loader)
-    Saveed:SetFolder("Project Spectrum/Anime Vanguards/"..game:GetService("Players"):GetUserIdFromNameAsync(game:GetService("Players").LocalPlayer.Name))
+    Saveed:SetFolder("CrazyDay/Anime Vanguards/"..game:GetService("Players"):GetUserIdFromNameAsync(game:GetService("Players").LocalPlayer.Name))
     Saveed:SetIgnoreIndexes({"File Name","Macro Record", "Import Name", "Import Link"})
     Saveed:IgnoreThemeSettings()
     Saveed:BuildConfigSection(Tabs_Main[#Tabs_Main])
@@ -1097,7 +1095,7 @@ else
     end
 
     local function Macro_Write()
-        writefile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value), game:GetService("HttpService"):JSONEncode(Macro.Value))
+        writefile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value), game:GetService("HttpService"):JSONEncode(Macro.Value))
     end
 
     local function Macro_Target()
@@ -1424,12 +1422,12 @@ else
                     if Value == true and not Loader.Unloaded then
                         if Macro_Target() == nil then
                             return Loader:Notify({Title = "Error", SubContent = "Select Macro File First", Disable = true, Duration = 5})
-                        elseif not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Macro_Target())) then
+                        elseif not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Macro_Target())) then
                             return Loader:Notify({Title = "Error", SubContent = tostring(Macro_Target())..".json is empty", Disable = true, Duration = 5})
                         elseif Loader.Unloaded then
                             return
                         else
-                            Macro.Playing = game:GetService("HttpService"):JSONDecode(readfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Macro_Target())))
+                            Macro.Playing = game:GetService("HttpService"):JSONDecode(readfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Macro_Target())))
                             setmetatable(Macro.Playing, Macro.Len)
 
                             if #Macro.Playing == 0 then
@@ -1889,7 +1887,7 @@ else
                                     ["title"] = "**✦ Webhook Notifaction ✦**",
                                     ["description"] = nil,
                                     ["footer"] = {
-                                        ["text"] = "Time: "..os.date("%c").."\n// Project Spectrum 8.0",
+                                        ["text"] = "Time: "..os.date("%c").."\nCredit: YT » @crazyday3693",
                                         ["icon_url"] = "https://yt3.ggpht.com/yti/ANjgQV_KI8R3VhsnEhzYD0M1EJXUU29p0YC5gzrrhv8nWzA7j6s=s88-c-k-c0x00ffffff-no-rj"
                                     },
                                     ["thumbnail"] = {
@@ -1952,7 +1950,7 @@ end
 function Import_File()
     local passed, error = pcall(
         function()
-            local file = string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Import Name"].Value)
+            local file = string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Import Name"].Value)
             if not isfile then
                 error("The Excutor doesn't Support isfile", 9)
             elseif not writefile then
@@ -1983,26 +1981,26 @@ function Import_File()
                 else
                     SetFile:CheckFile(file, info)
 
-                    Configs["Macro File"]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                    Configs["Macro File"]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                     for i = 1, #Game.Story_Mode do
-                        Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
-                        Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
-                        Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                        Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
+                        Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
+                        Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
 
-                        if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
+                        if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
                            Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
                         end
-                        if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
+                        if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
                            Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
                         end
-                        if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
+                        if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
                            Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
                         end
                     end
                     for i = 1, #Game.Legend_Stage_Mode do
-                        Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                        Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
 
-                        if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
+                        if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
                            Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
                         end
                     end
@@ -2022,7 +2020,7 @@ end
 function Create_Macro()
     local passed, error = pcall(
         function()
-            local link = string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["File Name"].Value)
+            local link = string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["File Name"].Value)
 
             if not isfile then
                 error("The Excutor doesn't Support isfile", 9)
@@ -2033,28 +2031,28 @@ function Create_Macro()
             else
                 SetFile:CheckFile(link, {Data = {}})
 
-                Configs["Macro File"]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                Configs["Macro File"]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                 Configs["Macro File"]:SetValue(Configs["File Name"].Value)
 
                 for i = 1, #Game.Story_Mode do
-                    Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
-                    Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
-                    Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                    Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
+                    Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
+                    Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
 
-                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
                        Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
                     end
-                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
                        Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
                     end
-                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
                        Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
                     end
                 end
                 for i = 1, #Game.Legend_Stage_Mode do
-                    Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json"))
+                    Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
 
-                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
+                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
                        Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
                     end
                 end
@@ -2073,7 +2071,7 @@ function Delete_Macro()
     local text = Configs["Macro File"].Value
     local passed, error = pcall(
         function()
-            local link = string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", text)
+            local link = string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", text)
 
             if not isfile then
                 error("The Excutor doesn't Support isfile", 9)
@@ -2083,7 +2081,7 @@ function Delete_Macro()
                 error("The file cannot be found", 9)
             else
                 SetFile:DeleteFile(link)
-                local list = SetFile:ListFile("Project Spectrum/Anime Vanguards/Macro","json")
+                local list = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json")
 
                 Configs["Macro File"]:SetValues(list)
                 Configs["Macro File"]:SetValue(#list > 0 and list[#list] or nil)
@@ -2093,20 +2091,20 @@ function Delete_Macro()
                     Configs["Paragon"..Game.Story_Mode[i]]:SetValues(list)
                     Configs["Challenge"..Game.Story_Mode[i]]:SetValues(list)
 
-                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
                        Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
                     end
-                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
                        Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
                     end
-                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
+                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
                        Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
                     end
                 end
                 for i = 1, #Game.Legend_Stage_Mode do
                     Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(list)
 
-                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
+                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
                        Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
                     end
                 end
@@ -2123,7 +2121,7 @@ end
 function Export_Macro()
     local passed, error = pcall(
         function()
-            local link = string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)
+            local link = string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)
 
             if not isfile then
                 error("The Excutor doesn't Support isfile", 9)
@@ -2145,10 +2143,10 @@ function Export_Macro()
 end
 
 function Equip_Macro()
-    if not isfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)) then
+    if not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)) then
        return Loader:Notify({Title = "Error", SubContent = "The file cannot be found", Duration = 5, Disable = true})
     else
-        local XData = game:GetService("HttpService"):JSONDecode(readfile(string.format("Project Spectrum/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)))
+        local XData = game:GetService("HttpService"):JSONDecode(readfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Macro File"].Value)))
         setmetatable(XData, Macro.Len)
 
         if #XData == 0 then
