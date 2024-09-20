@@ -72,10 +72,24 @@ else
     print("Go Die Nigga" .. response)
 end
 
-_G.HoHoLoaded = true
-notify = loadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Notification.lua"))()
-notify.New("Project Spectrum 8.0", 60)
-notify.New("by xZPUHigh & Exclusive Edition", 60)
+local notificationLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/laagginq/ui-libraries/main/xaxas-notification/src.lua"))();
+local notifications = notificationLibrary.new({            
+    NotificationLifetime = 999, 
+    NotificationPosition = "Middle",
+    
+    TextFont = Enum.Font.Code,
+    TextColor = Color3.fromRGB(255, 255, 255),
+    TextSize = 15,
+    
+    TextStrokeTransparency = 0, 
+    TextStrokeColor = Color3.fromRGB(0, 0, 0)
+});
+
+notifications:BuildNotificationUI();
+notifications:Notify("Welcome To Project Spectrum 8.0")
+notifications:Notify(" ")
+notifications:Notify("by xZPUHigh & Exclusive Edition")
+wait(5)
 
 wait(.1)
 print("Project Spectrum...")
@@ -88,8 +102,6 @@ print("Last Updated 04/04/24")
 ]]
 
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen") == nil and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LobbyLoadingScreen") == nil
-if game:GetService("CoreGui"):FindFirstChild("CrazyDay") then return end
-
 local Loader = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/geninteface.lua"))()
 local Saveed = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/fluentsaveconfig.lua"))()
 local Setting = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/mainsettings.lua"))()
@@ -129,13 +141,6 @@ local Tabs_Secs =
 local Game =
 {
     Time = tick(),
-
-    Challenge_Changed = false,
-    Cannot_Challenge = false,
-    Banner_Changed = false,
-    Send_Webhook = false,
-    Cannot_Retry = false,
-    Cannot_Next = false,
 
     Story_Mode = {},
     Story_Acts = {},
@@ -381,9 +386,9 @@ Tabs_Secs[1][3]:AddToggle(
 )
 
 Tabs_Secs[1][4]:AddDropdown(
-    "Ignore Challenge World",
+    "Ignore Challegne World",
     {
-        Title = "Ignore Challenge World",
+        Title = "Ignore Challegne World",
         Values = Game.Story_Mode,
         Multi = true,
         Default = {}
@@ -391,9 +396,9 @@ Tabs_Secs[1][4]:AddDropdown(
 )
 
 Tabs_Secs[1][4]:AddDropdown(
-    "Ignore Challenge Debuff",
+    "Ignore Challegne Debuff",
     {
-        Title = "Ignore Challenge Debuff",
+        Title = "Ignore Challegne Debuff",
         Values = Game.Challenge_Debuff,
         Multi = true,
         Default = {}
@@ -401,9 +406,9 @@ Tabs_Secs[1][4]:AddDropdown(
 )
 
 Tabs_Secs[1][4]:AddDropdown(
-    "Ignore Challenge Rewards",
+    "Ignore Challegne Rewards",
     {
-        Title = "Ignore Challenge  Rewards",
+        Title = "Ignore Challegne Rewards",
         Values = Game.Challenge_Rewards,
         Multi = true,
         Default = {}
@@ -420,19 +425,10 @@ Tabs_Secs[1][4]:AddToggle(
 )
 
 Tabs_Secs[1][4]:AddToggle(
-    "Not Ignore if Reroll",
-    {
-        Title = "Not Ignore if Reroll",
-        Description = "Allow you to join the challenge even ignore challenge rewards, Enable with Auto Join Challenges",
-        Default = false
-    }
-)
-
-Tabs_Secs[1][4]:AddToggle(
     "Auto Lobby Challenge",
     {
         Title = "Auto Lobby",
-        Description = "Return to the lobby if challenge changed automatically",
+        Description = "Return to the lobby automatically if challenge changed",
         Default = false
     }
 )
@@ -534,7 +530,7 @@ Tabs_Secs[2][3]:AddToggle(
     "Auto Vote Debuff",
     {
         Title = "Auto Vote Debuff",
-        Description = "Vote the select debuff by priority automatically",
+        Description = " Vote the select debuff by priority automatically",
         Default = false
     }
 )
@@ -574,7 +570,7 @@ Tabs_Secs[2][4]:AddToggle(
     "Auto Sell Select Units",
     {
         Title = "Auto Sell",
-        Description = "Sell the select units on select wave automatically,\nIf you enabled auto sell with macro record the macro will not record sell select units",
+        Description = " Sell the select units on select wave automatically",
         Default = false
     }
 )
@@ -701,6 +697,7 @@ Game.Buttons.Import =
 Tabs_Secs[3][2]:AddButton(
     {
         Title = "Import Macro File",
+        Description = nil,
         Callback = function()
             Import_File()
         end
@@ -723,7 +720,7 @@ Tabs_Secs[3][3]:AddToggle(
         Description =  "Experiencing issues with the recorded macro? Try not to press upgrade to early, place units to close to each other",
         Default = false,
         Callback = function(Value)
-            if Value then Macro.Value = {Data = {}} end
+            if Value then Macro.Value = {Data = {}} if game.PlaceId ~= 16146832113 and #game:GetService("Players"):GetChildren() > 1 then game:GetService("Players").LocalPlayer:Kick("Make sure that in The server is no other than you") end end
         end
     }
 )
@@ -781,7 +778,7 @@ end
 
 for i = 1, #Game.Legend_Stage_Mode do
     Tabs_Secs[3][5]:AddDropdown(
-        "LegendStage"..Game.Legend_Stage_Mode[i],
+        "Legend Stage"..Game.Legend_Stage_Mode[i],
         {
             Title = Game.Legend_Stage_Mode[i],
             Values = SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"),
@@ -840,17 +837,14 @@ if game.PlaceId == 16146832113 then
     end
 
     local function Challenge_Ignore()
-        if #Configs["Ignore Challenge Rewards"].Tables > 0 then
-            if Configs["Not Ignore if Reroll"] and Challenge_Normal_Lobby().LobbyBanner.Banner.Main.ChallengeInterface.Background.Rewards:FindFirstChild("TraitRerolls") then
-            else
-                for I = 1, #Configs["Ignore Challenge Rewards"].Tables do
-                    if Challenge_Normal_Lobby().LobbyBanner.Banner.Main.ChallengeInterface.Background.Rewards:FindFirstChild(Configs["Ignore Challenge Rewards"].Tables[I]) then
-                        return true
-                    end
+        if #Configs["Ignore Challegne Rewards"].Tables > 0 then
+            for I = 1, #Configs["Ignore Challegne Rewards"].Tables do
+                if Challenge_Normal_Lobby().LobbyBanner.Banner.Main.ChallengeInterface.Background.Rewards:FindFirstChild(Configs["Ignore Challegne Rewards"].Tables[I]) then
+                    return true
                 end
             end
         end
-        if #Configs["Ignore Challenge Debuff"].Tables > 0 then
+        if #Configs["Ignore Challegne Debuff"].Tables > 0 then
             local Debuff_Online = Challenge_Normal_Lobby().LobbyBanner.Banner.Main.ChallengeInterface.Background.Difficulty.Label.Text
             if Debuff_Online:find(" ") then
                 local Debuff_Tables = {}
@@ -860,21 +854,21 @@ if game.PlaceId == 16146832113 then
                     table.insert(Debuff_Tables, Debuff_Online[I]:lower())
                 end
 
-                for I = 1, #Configs["Ignore Challenge Debuff"].Tables do
-                    if table.find(Debuff_Tables, Configs["Ignore Challenge Debuff"].Tables[I]:lower()) then
+                for I = 1, #Configs["Ignore Challegne Debuff"].Tables do
+                    if table.find(Debuff_Tables, Configs["Ignore Challegne Debuff"].Tables[I]:lower()) then
                         return true
                     end
                 end
             else
-                for I = 1, #Configs["Ignore Challenge Debuff"].Tables do
-                    if Debuff_Online:lower() == Configs["Ignore Challenge Debuff"].Tables[I]:lower() then
+                for I = 1, #Configs["Ignore Challegne Debuff"].Tables do
+                    if Debuff_Online:lower() == Configs["Ignore Challegne Debuff"].Tables[I]:lower() then
                         return true
                     end
                 end
             end
         end
-        if #Configs["Ignore Challenge World"].Tables > 0 then
-            for I, V in next, Configs["Ignore Challenge World"].Tables do
+        if #Configs["Ignore Challegne World"].Tables > 0 then
+            for I, V in next, Configs["Ignore Challegne World"].Tables do
                 local Data_Require = require(game:GetService("ReplicatedStorage").Modules.Data.StagesData)
                 for IX, VX in next, Data_Require.Challenge do
                     if IX == Name_to_Stage(V) then
@@ -1014,11 +1008,9 @@ if game.PlaceId == 16146832113 then
                     else
                         pcall(
                             function()
-                            if not Game.Cannot_Challenge and Configs["Auto Join Challenge"].Value and not Challenge_Ignore() then wait(Configs["Start Delay"].Value)
-                            if (game:GetService("Players").LocalPlayer.PlayerGui.Windows.Lobby.Enabled and game:GetService("Players").LocalPlayer.PlayerGui.Windows.Lobby.Holder.Visible) or game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MiniLobbyInterface") then return end
+                                if Configs["Auto Join Challenge"].Value and not Challenge_Ignore() then wait(Configs["Start Delay"].Value)
                                 game:GetService("ReplicatedStorage").Networking.LobbyEvent:FireServer("Enter", Challenge_Normal_Lobby())
                             elseif Story_Lobby() and (Configs["Auto Join Legend Stage"].Value or Configs["Auto Join Normal"].Value or Configs["Auto Join Hights"].Value) then wait(Configs["Start Delay"].Value)
-                            if (game:GetService("Players").LocalPlayer.PlayerGui.Windows.Lobby.Enabled and game:GetService("Players").LocalPlayer.PlayerGui.Windows.Lobby.Holder.Visible) or game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("MiniLobbyInterface") then return end
                                 game:GetService("ReplicatedStorage").Networking.LobbyEvent:FireServer("Enter", Story_Lobby())
                             end
                         end
@@ -1029,9 +1021,7 @@ if game.PlaceId == 16146832113 then
         end
     )
 else
-    if Configs["Macro Status"].Value then
-        Game.Others.Notify1 = Loader:Notify({Title = "Status : None", SubContent = "\n", Disable = true})
-    end
+    Game.Others.Notify1 = Loader:Notify({Title = "Status : None", SubContent = "\n", Disable = true})
     local OwnGui = game:GetService("Players").LocalPlayer.PlayerGui
     Game.Buttons.Equip:Lock()
 
@@ -1046,7 +1036,12 @@ else
     end
 
     local function Yen()
-        return getupvalues(require(game:GetService("StarterPlayer").Modules.Gameplay.PlayerYenHandler).GetYen)[1]
+        local TexT = OwnGui.Hotbar.Main.Yen.Text:split("¥")[1]
+
+        if TexT:find(",") then
+           TexT = TexT:gsub(",","")
+        end
+        return TexT
     end
 
     local function Stage_Name()
@@ -1059,10 +1054,12 @@ else
     end
 
     local function Stage_Type()
-        if game:GetService("Players").LocalPlayer.PlayerGui.Guides.List.StageInfo.StageName.Text:match("Paragon") then
+        if OwnGui.Guides.List.StageInfo.StageType.Text:match("Challenge") then
+            return "Challenge"
+        elseif OwnGui.Guides.List.StageInfo.StageName.Text:match("Paragon") then
             return "Paragon"
         else
-            return tostring(getupvalues(require(game:GetService("StarterPlayer").Modules.Interface.Loader.HUD.StageInfoHandler)._Init)[9].GameData.StageType)
+            return OwnGui.Guides.List.StageInfo.StageType.Text
         end
     end
 
@@ -1108,7 +1105,7 @@ else
 
     local function Unit_Data(TexT)
         for _, Data in next, game:GetService("ReplicatedStorage").Modules.Data.Entities.UnitsData:GetDescendants() do
-            if Data.ClassName == "ModuleScript" and (Data.Name == TexT or Data.Name:match(TexT)) then
+            if Data.ClassName == "ModuleScript" then
                 local require_data = require(Data)
                 local unt_data =
                 {
@@ -1123,21 +1120,6 @@ else
                 if unt_data.name == TexT or unt_data.model == TexT or unt_data.shinnymodel == TexT then
                     return unt_data
                 end
-            end
-        end
-    end
-
-    local function Units_Active(idx)
-        for i,v in next, getupvalues(getupvalues(require(game:GetService("StarterPlayer").Modules.Gameplay.UnitManager.UnitManagerHandler).ShowUnitManager)[3].GetAllPlacedUnits)[1]._ActiveUnits do
-            if i == idx and v.Player == game:GetService("Players").LocalPlayer then
-                local data_of_unit = {
-                    name = tostring(v.Data.Name),
-                    position = tostring(v.Position),
-                    rotation = tostring(v.Rotation),
-                    priority = v.Data.Priority,
-                    current_upgrade = v.Data.CurrentUpgrade
-                }
-                return data_of_unit
             end
         end
     end
@@ -1161,29 +1143,12 @@ else
 
     local function Unit_Position(unt)
         if type(unt) == "string" then
-            repeat task.wait() until stringtopos
             unt = stringtopos(unt)
         end
         for _, Unit in next, workspace.UnitVisuals.UnitCircles:GetChildren() do
-            if Unit.Position == unt or (Unit.Position - unt).Magnitude <= 0.75 then
+            if Unit.Position == unt or (Unit.Position - unt).Magnitude <= 2 then
                 return Unit.Name
             end
-        end
-    end
-
-    local function Unit_Priority(x)
-        if x == "First" then
-            return 1
-        elseif x == "Closest" then
-            return 2
-        elseif x == "Last" then
-            return 3
-        elseif x == "Strongest" then
-            return 4
-        elseif x == "Weakest" then
-            return 5
-        else
-            return 0
         end
     end
 
@@ -1194,18 +1159,6 @@ else
                 if V.UnitTemplate.Holder.Main.UnitName.Text == name then
                     return true
                 end
-            end
-        end
-    end
-
-    local function Check_Places(pos)
-        if type(pos) == "string" then
-            repeat task.wait() until stringtopos
-            pos = stringtopos(pos)
-        end
-        for i,v in next, workspace.UnitVisuals.UnitCircles:GetChildren() do
-            if v.Position == pos or (v.Position - pos).Magnitude <= 1.25 then
-                return true
             end
         end
     end
@@ -1263,39 +1216,15 @@ else
         end
     end
 
-    local function Check_Macro_Time_Money(x)
-        repeat task.wait() until (tonumber(Yen()) >= tonumber(x["money"]) and tonumber(Game_Time()) >= tonumber(x["time"])) or not Configs["Macro Play"].Value or Loader.Unloaded
-
-        task.wait(Configs["Macro Delay"].Value)
-    end
-
-    local function UpgradeInterfacesX()
-        if #OwnGui.UpgradeInterfaces:GetChildren() > 0 then
-            return OwnGui.UpgradeInterfaces:GetChildren()[1]
-        end
-    end
-
     local function Update_Status()
         if Configs["Macro Record"].Value and Macro.Value[tostring(Macro_Len())] then
-            if Macro.Value[tostring(Macro_Len())]["rotation"] then
-                return "\nIndex : "..tostring(Macro_Len().."/"..Macro_Len()).."\nAction : "..Macro.Value[tostring(Macro_Len())]["type"].."\nUnit : "..Macro.Value[tostring(Macro_Len())]["unit"].."\nRotation : "..Macro.Value[tostring(Macro_Len())]["rotation"].."\nMoney : "..Macro.Value[tostring(Macro_Len())]["money"].."\nTime : "..Macro.Value[tostring(Macro_Len())]["time"]
-            elseif Macro.Value[tostring(Macro_Len())]["value"] then
-                return "\nIndex : "..tostring(Macro_Len().."/"..Macro_Len()).."\nAction : "..Macro.Value[tostring(Macro_Len())]["type"].."\nUnit : "..Macro.Value[tostring(Macro_Len())]["unit"].."\nValue : "..Macro.Value[tostring(Macro_Len())]["value"].."\nMoney : "..Macro.Value[tostring(Macro_Len())]["money"].."\nTime : "..Macro.Value[tostring(Macro_Len())]["time"]
-            else
-                return "\nIndex : "..tostring(Macro_Len().."/"..Macro_Len()).."\nAction : "..Macro.Value[tostring(Macro_Len())]["type"].."\nUnit : "..Macro.Value[tostring(Macro_Len())]["unit"].."\nMoney : "..Macro.Value[tostring(Macro_Len())]["money"].."\nTime : "..Macro.Value[tostring(Macro_Len())]["time"]
-            end
+            return "\nIndex : "..tostring(Macro_Len().."/"..Macro_Len()).."\nAction : "..Macro.Value[tostring(Macro_Len())]["type"].."\nUnit : "..Macro.Value[tostring(Macro_Len())]["unit"].."\nMoney : "..Macro.Value[tostring(Macro_Len())]["money"].."\nTime : "..Macro.Value[tostring(Macro_Len())]["time"]
         elseif Configs["Macro Play"].Value and Macro.Playing and Stage_Name() == Macro.Playing.Data.World then
             local Data = Macro.Playing[tostring(Macro.Indexs)]
             if Macro.Ended then
                 return "\nIndex : "..tostring(Macro.Indexs.."/"..#Macro.Playing)
             else
-                if Data["rotation"] then
-                    return "\nIndex : "..tostring(Macro.Indexs.."/"..#Macro.Playing.."\nAction : "..Data["type"].."\nUnit : "..Data["unit"].."\nRotation : "..Data["rotation"].."\nWaiting Money : "..Data["money"].."\nWaiting Time : "..Data["time"])
-                elseif Data["value"] then
-                    return "\nIndex : "..tostring(Macro.Indexs.."/"..#Macro.Playing.."\nAction : "..Data["type"].."\nUnit : "..Data["unit"].."\nValue : "..Data["value"].."\nWaiting Money : "..Data["money"].."\nWaiting Time : "..Data["time"])
-                else
-                    return "\nIndex : "..tostring(Macro.Indexs.."/"..#Macro.Playing.."\nAction : "..Data["type"].."\nUnit : "..Data["unit"].."\nWaiting Money : "..Data["money"].."\nWaiting Time : "..Data["time"])
-                end
+                return "\nIndex : "..tostring(Macro.Indexs.."/"..#Macro.Playing.."\nAction : "..Data["type"].."\nUnit : "..Data["unit"].."\nWaiting Money : "..Data["money"].."\nWaiting Time : "..Data["time"])
             end
         else
             return "\nIndex : 0/0"
@@ -1308,22 +1237,23 @@ else
                 if Loader.Unloaded or not Configs["Macro Record"].Value then
                     return
                 else
-                    if Units_Active(v.Name) then
-                        Macro_Data_Write()
-                        local unit = Units_Active(v.Name)
-
-                        Macro_Insert(
-                            {
-                                ["type"] = "Place",
-                                ["unit"] = unit.name,
-                                ["money"] = tostring(Money_Write(unit.name, "Place")),
-                                ["time"] = tostring(Time_Write()),
-                                ["cframe"] = unit.position,
-                                ["rotation"] = unit.rotation
-                            }
-                        )
-                        Macro_Write()
+                    if #OwnGui.UpgradeInterfaces:GetChildren() > 0 then
+                        OwnGui.UpgradeInterfaces:GetChildren()[1]:Destroy()
                     end
+                    repeat wait() until #OwnGui.UpgradeInterfaces:GetChildren() > 0
+                    local unit = OwnGui.UpgradeInterfaces:GetChildren()[1]:WaitForChild("Unit"):WaitForChild("Main"):WaitForChild("UnitFrame"):FindFirstChildOfClass("Frame").Name
+
+                    Macro_Data_Write()
+                    Macro_Insert(
+                        {
+                            ["type"] = "Place",
+                            ["unit"] = tostring(unit),
+                            ["money"] = tostring(Money_Write(unit, "Place")),
+                            ["time"] = tostring(Time_Write()),
+                            ["cframe"] = tostring(v.Position.X..", "..(v.Position.Y + 0.8)..", "..v.Position.Z)
+                        }
+                    )
+                    Macro_Write()
                 end
             end)
         end
@@ -1336,16 +1266,13 @@ else
                     local Upgrade_Button, Sell_Button, Priority = v:WaitForChild("Stats"):WaitForChild("UpgradeButton"):WaitForChild("Inner"):WaitForChild("Label"), v:WaitForChild("Unit"):WaitForChild("Sell"):WaitForChild("Button"), v:WaitForChild("Unit"):WaitForChild("Priority"):WaitForChild("Inner"):WaitForChild("Label")
                     Game.Signals[v.Name.."Upgrade"] = Upgrade_Button:GetPropertyChangedSignal("Text"):Connect(
                         function()
-                            if Configs["Macro Record"].Value and not Loader.Unloaded and Units_Active(v.Name) then
-                                local unit = Units_Active(v.Name)
-
+                            if Configs["Macro Record"].Value and not Loader.Unloaded then
                                 Macro_Data_Write()
                                 Macro_Insert(
                                     {
                                         ["type"] = "Upgrade",
-                                        ["unit"] = unit.name,
-                                        ["value"] = tostring(unit.current_upgrade - 1),
-                                        ["money"] = tostring(Money_Write(unit.name, "Upgrade")),
+                                        ["unit"] = tostring(v.Unit.Main.UnitFrame:FindFirstChildOfClass("Frame").Name),
+                                        ["money"] = tostring(Money_Write(v.Unit.Main.UnitFrame:FindFirstChildOfClass("Frame").Name, "Upgrade")),
                                         ["time"] = tostring(Time_Write()),
                                         ["cframe"] = tostring(Unit_CFrame(v.Name))
                                     }
@@ -1356,15 +1283,12 @@ else
                     )
                     Game.Signals[v.Name.."Priority"] = Priority:GetPropertyChangedSignal("Text"):Connect(
                         function()
-                            if Configs["Macro Record"].Value and not Loader.Unloaded and Units_Active(v.Name) then
-                                local unit = Units_Active(v.Name)
-
+                            if Configs["Macro Record"].Value and not Loader.Unloaded then
                                 Macro_Data_Write()
                                 Macro_Insert(
                                     {
                                         ["type"] = "ChangePriority",
-                                        ["unit"] = unit.name,
-                                        ["value"] = v.Unit.Priority.Inner.Label.Text,
+                                        ["unit"] = tostring(v.Unit.Main.UnitFrame:FindFirstChildOfClass("Frame").Name),
                                         ["money"] = "0",
                                         ["time"] = tostring(Time_Write()),
                                         ["cframe"] = tostring(Unit_CFrame(v.Name))
@@ -1376,14 +1300,12 @@ else
                     )
                     Game.Signals[v.Name.."Sell"] = Sell_Button.InputBegan:Connect(
                         function(input)
-                            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and Units_Active(v.Name) and Configs["Macro Record"].Value and not Loader.Unloaded then
-                                local unit = Units_Active(v.Name)
-
+                            if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and Configs["Macro Record"].Value and not Loader.Unloaded then
                                 Macro_Data_Write()
                                 Macro_Insert(
                                     {
                                         ["type"] = "Sell",
-                                        ["unit"] = unit.name,
+                                        ["unit"] = tostring(v.Unit.Main.UnitFrame:FindFirstChildOfClass("Frame").Name),
                                         ["money"] = "0",
                                         ["time"] = tostring(Time_Write()),
                                         ["cframe"] = tostring(Unit_CFrame(v.Name))
@@ -1395,7 +1317,7 @@ else
                     )
                     task.spawn(
                         function()
-                            repeat task.wait() until not v.Parent or Loader.Unloaded
+                            repeat task.wait() until not v.Parent
                             if Game.Signals[v.Name.."Upgrade"] then
                                Game.Signals[v.Name.."Upgrade"]:Disconnect()
                                Game.Signals[v.Name.."Upgrade"] = nil
@@ -1424,78 +1346,68 @@ else
                             return Loader:Notify({Title = "Error", SubContent = "Select Macro File First", Disable = true, Duration = 5})
                         elseif not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Macro_Target())) then
                             return Loader:Notify({Title = "Error", SubContent = tostring(Macro_Target())..".json is empty", Disable = true, Duration = 5})
-                        elseif Loader.Unloaded then
-                            return
                         else
                             Macro.Playing = game:GetService("HttpService"):JSONDecode(readfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Macro_Target())))
                             setmetatable(Macro.Playing, Macro.Len)
-
                             if #Macro.Playing == 0 then
                                 return Loader:Notify({Title = "Error", SubContent = "Record Action First", Disable = true, Duration = 5})
                             elseif Stage_Name() ~= Macro.Playing.Data.World then
                                 return Loader:Notify({Title = "Error", SubContent = "Game stage doesn't match the data", Disable = true, Duration = 5})
                             else
                                 for i = 1, #Macro.Playing do
-                                    local Data = Macro.Playing[tostring(i)]
                                     Macro.Indexs = i
+                                    local Data = Macro.Playing[tostring(i)]
 
                                     if not Configs["Macro Play"].Value or Loader.Unloaded then
                                         break
                                     else
+                                        repeat wait() until (tonumber(Yen()) >= tonumber(Data["money"]) and tonumber(Game_Time()) >= tonumber(Data["time"])) or not Configs["Macro Play"].Value or Loader.Unloaded
                                         if Data["type"] == "Place" then
                                             if not Configs["Macro Play"].Value or Loader.Unloaded then
                                                 break
                                             elseif not Check_Units(Data["unit"]) then
                                                 Loader:Notify({Title = "Error", SubContent = "Invaild Unit On Slot", Disable = true, Duration = 2.5})
-                                            elseif Check_Places(Data["cframe"]) then
-                                                Loader:Notify({Title = "Error", SubContent = "Unit On This Placed", Disable = true, Duration = 2.5})
                                             else
-                                                Check_Macro_Time_Money(Data)
-                                                require(game:GetService("StarterPlayer").Modules.Gameplay.ClientUnitHandler).IsPlacingUnit = true
+                                                wait(Configs["Macro Delay"].Value)
                                                 game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer(
                                                     "Render",
                                                     {
                                                         Data["unit"],
                                                         Unit_Data(Data["unit"]).id,
                                                         stringtopos(Data["cframe"]),
-                                                        tonumber(Data["rotation"] or 0)
+                                                        0
                                                     }
                                                 )
-                                                require(game:GetService("StarterPlayer").Modules.Gameplay.ClientUnitHandler).IsPlacingUnit = false
                                             end
                                         elseif Data["type"] == "Upgrade" then
                                             if not Configs["Macro Play"].Value or Loader.Unloaded then
                                                 break
-                                            elseif not Unit_Position(Data["cframe"]) or (Unit_Position(Data["cframe"]) and Units_Active(Unit_Position(Data["cframe"])).name ~= Data["unit"]) then
+                                            elseif not Unit_Position(Data["cframe"]) then
                                                 Loader:Notify({Title = "Error", SubContent = "Invaild Unit to Upgrade", Disable = true, Duration = 2.5})
-                                            elseif Data["value"] and Units_Active(Unit_Position(Data["cframe"])).current_upgrade >= tonumber(Data["value"]) + 1 then
-                                                Loader:Notify({Title = "Error", SubContent = "The Unit has been Upgraded", Disable = true, Duration = 2.5})
                                             else
-                                                Check_Macro_Time_Money(Data)
+                                                wait(Configs["Macro Delay"].Value)
                                                 game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer("Upgrade", Unit_Position(Data["cframe"]))
                                             end
                                         elseif Data["type"] == "Sell" then
                                             if not Configs["Macro Play"].Value or Loader.Unloaded then
                                                 break
-                                            elseif not Unit_Position(Data["cframe"]) or (Unit_Position(Data["cframe"]) and Units_Active(Unit_Position(Data["cframe"])).name ~= Data["unit"]) then
+                                            elseif not Unit_Position(Data["cframe"]) then
                                                 Loader:Notify({Title = "Error", SubContent = "Invaild Unit to Sell", Disable = true, Duration = 2.5})
                                             else
-                                                Check_Macro_Time_Money(Data)
+                                                wait(Configs["Macro Delay"].Value)
                                                 game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer("Sell", Unit_Position(Data["cframe"]))
                                             end
                                         elseif Data["type"] == "ChangePriority" then
                                             if not Configs["Macro Play"].Value or Loader.Unloaded then
                                                 break
-                                            elseif not Unit_Position(Data["cframe"]) or (Unit_Position(Data["cframe"]) and Units_Active(Unit_Position(Data["cframe"])).name ~= Data["unit"]) then
+                                            elseif not Unit_Position(Data["cframe"]) then
                                                 Loader:Notify({Title = "Error", SubContent = "Invaild Unit to ChangePriority", Disable = true, Duration = 2.5})
-                                            elseif Data["value"] and Units_Active(Unit_Position(Data["cframe"])).priority == Unit_Priority(Data["value"]) then
-                                                Loader:Notify({Title = "Error", SubContent = "This Unit has Changed Priority", Disable = true, Duration = 2.5})
                                             else
-                                                Check_Macro_Time_Money(Data)
+                                                wait(Configs["Macro Delay"].Value)
                                                 game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer("ChangePriority", Unit_Position(Data["cframe"]))
                                             end
                                         end
-                                        task.wait(0.475)
+                                        wait(0.35)
                                     end
                                     if not Configs["Macro Play"].Value or Loader.Unloaded then
                                         break
@@ -1513,109 +1425,6 @@ else
                     end
                 end
             )
-        end
-    )
-
-    task.spawn(
-        function()
-            while true and wait() do
-                if Loader.Unloaded then break
-                else
-                    if Configs["Macro Record"].Value and UpgradeInterfacesX() and not Game.Signals[UpgradeInterfacesX().Name.."Upgrade"] then
-                        local UpgradeInterface = UpgradeInterfacesX()
-                        Game.Signals[UpgradeInterface.Name.."Upgrade"] = UpgradeInterface:WaitForChild("Stats"):WaitForChild("UpgradeButton"):WaitForChild("Inner"):WaitForChild("Label"):GetPropertyChangedSignal("Text"):Connect(
-                            function()
-                                if Configs["Macro Record"].Value and not Loader.Unloaded and Units_Active(UpgradeInterface.Name) then
-                                    local unit = Units_Active(UpgradeInterface.Name)
-
-                                    Macro_Data_Write()
-                                    Macro_Insert(
-                                        {
-                                            ["type"] = "Upgrade",
-                                            ["unit"] = unit.name,
-                                            ["value"] = tostring(unit.current_upgrade - 1),
-                                            ["money"] = tostring(Money_Write(unit.name, "Upgrade")),
-                                            ["time"] = tostring(Time_Write()),
-                                            ["cframe"] = tostring(Unit_CFrame(UpgradeInterface.Name))
-                                        }
-                                    )
-                                    Macro_Write()
-                                end
-                            end
-                        )
-                        task.spawn(
-                            function()
-                                repeat task.wait() until not UpgradeInterface.Parent or Loader.Unloaded
-                                if Game.Signals[UpgradeInterface.Name.."Upgrade"] then
-                                   Game.Signals[UpgradeInterface.Name.."Upgrade"]:Disconnect()
-                                   Game.Signals[UpgradeInterface.Name.."Upgrade"] = nil
-                                end
-                            end
-                        )
-                    elseif Configs["Macro Record"].Value and UpgradeInterfacesX() and not Game.Signals[UpgradeInterfacesX().Name.."Priority"] then
-                        local UpgradeInterface = UpgradeInterfacesX()
-                        Game.Signals[UpgradeInterface.Name.."Priority"] = UpgradeInterface:WaitForChild("Unit"):WaitForChild("Priority"):WaitForChild("Inner"):WaitForChild("Label"):GetPropertyChangedSignal("Text"):Connect(
-                            function()
-                                if Configs["Macro Record"].Value and not Loader.Unloaded and Units_Active(UpgradeInterface.Name) then
-                                    local unit = Units_Active(UpgradeInterface.Name)
-
-                                    Macro_Data_Write()
-                                    Macro_Insert(
-                                        {
-                                            ["type"] = "ChangePriority",
-                                            ["unit"] = unit.name,
-                                            ["value"] = UpgradeInterface.Unit.Priority.Inner.Label.Text,
-                                            ["money"] = "0",
-                                            ["time"] = tostring(Time_Write()),
-                                            ["cframe"] = tostring(Unit_CFrame(UpgradeInterface.Name))
-                                        }
-                                    )
-                                    Macro_Write()
-                                end
-                            end
-                        )
-                        task.spawn(
-                            function()
-                                repeat task.wait() until not UpgradeInterface.Parent or Loader.Unloaded
-                                if Game.Signals[UpgradeInterface.Name.."Priority"] then
-                                   Game.Signals[UpgradeInterface.Name.."Priority"]:Disconnect()
-                                   Game.Signals[UpgradeInterface.Name.."Priority"] = nil
-                                end
-                            end
-                        )
-                    elseif Configs["Macro Record"].Value and UpgradeInterfacesX() and not Game.Signals[UpgradeInterfacesX().Name.."Sell"] then
-                        local UpgradeInterface = UpgradeInterfacesX()
-                        Game.Signals[UpgradeInterface.Name.."Sell"] = UpgradeInterface:WaitForChild("Unit"):WaitForChild("Sell"):WaitForChild("Button").InputBegan:Connect(
-                            function(input)
-                                if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and Units_Active(UpgradeInterface.Name) and Configs["Macro Record"].Value and not Loader.Unloaded then
-                                    local unit = Units_Active(UpgradeInterface.Name)
-
-                                    Macro_Data_Write()
-                                    Macro_Insert(
-                                        {
-                                            ["type"] = "Sell",
-                                            ["unit"] = unit.name,
-                                            ["money"] = "0",
-                                            ["time"] = tostring(Time_Write()),
-                                            ["cframe"] = tostring(Unit_CFrame(UpgradeInterface.Name))
-                                        }
-                                    )
-                                    Macro_Write()
-                                end
-                            end
-                        )
-                        task.spawn(
-                            function()
-                                repeat task.wait() until not UpgradeInterface.Parent or Loader.Unloaded
-                                if Game.Signals[UpgradeInterface.Name.."Sell"] then
-                                   Game.Signals[UpgradeInterface.Name.."Sell"]:Disconnect()
-                                   Game.Signals[UpgradeInterface.Name.."Sell"] = nil
-                                end
-                            end
-                        )
-                    end
-                end
-            end
         end
     )
 
@@ -1653,24 +1462,24 @@ else
                     pcall(
                         function()
                             local Visual = OwnGui.EndScreen
-                            if (Configs["Auto Leave"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Leave") and Visual.Container.EndScreen:FindFirstChild("Leave").Visible) or (Stage_Type() == "Challenge" and End_Stage() == "VICTORY!") then
-                                if Configs["Send Webhook"].Value and not Game.Send_Webhook then
+                            if Configs["Auto Leave"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Leave") and Visual.Container.EndScreen:FindFirstChild("Leave").Visible then
+                                if Configs["Send Webhook"].Value then
                                     wait(2)
                                 end
                                 NavigationGUISelect(Visual.Container.EndScreen.Leave.Button)
-                                wait(1)
-                            elseif not Game.Cannot_Next and End_Stage() ~= "FAILED" and Configs["Auto Next"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Next") and Visual.Container.EndScreen:FindFirstChild("Next").Visible then
-                                if Configs["Send Webhook"].Value and not Game.Send_Webhook then
+                                wait(3)
+                            elseif Configs["Auto Next"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Next") and Visual.Container.EndScreen:FindFirstChild("Next").Visible then
+                                if Configs["Send Webhook"].Value then
                                     wait(2)
                                 end
                                 NavigationGUISelect(Visual.Container.EndScreen.Next.Button)
-                                wait(1)
-                            elseif not Game.Cannot_Retry and Configs["Auto Retry"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Retry") and Visual.Container.EndScreen:FindFirstChild("Retry").Visible then
-                                if Configs["Send Webhook"].Value and not Game.Send_Webhook then
+                                wait(3)
+                            elseif Configs["Auto Retry"].Value and Visual.Enabled and Visual.ShowEndScreen.Visible and Visual.Container.EndScreen:FindFirstChild("Retry") and Visual.Container.EndScreen:FindFirstChild("Retry").Visible then
+                                if Configs["Send Webhook"].Value then
                                     wait(2)
                                 end
                                 NavigationGUISelect(Visual.Container.EndScreen.Retry.Button)
-                                wait(1)
+                                wait(3)
                             end
                         end
                     )
@@ -1704,7 +1513,6 @@ else
                 if table.find(Configs["Debuff Priority 1"].Tables, V.Name) then
                     if V:FindFirstChild("Main") and V.Main:FindFirstChild("Button") then
                         NavigationGUISelect(V.Main.Button)
-                        repeat task.wait() until not V.Parent or Loader.Unloaded
                     end
                 end
             end
@@ -1713,13 +1521,10 @@ else
 
     local function Debuff_Priority_2()
         if #Configs["Debuff Priority 2"].Tables > 0 then
-            Debuff_Priority_1()
             for I, V in next, OwnGui.Frames.Modifiers.Main:GetChildren() do
                 if table.find(Configs["Debuff Priority 2"].Tables, V.Name) then
                     if V:FindFirstChild("Main") and V.Main:FindFirstChild("Button") then
-                        Debuff_Priority_1()
                         NavigationGUISelect(V.Main.Button)
-                        repeat task.wait() until not V.Parent or Loader.Unloaded
                     end
                 end
             end
@@ -1728,15 +1533,10 @@ else
 
     local function Debuff_Priority_3()
         if #Configs["Debuff Priority 3"].Tables > 0 then
-            Debuff_Priority_1()
-            Debuff_Priority_2()
             for I, V in next, OwnGui.Frames.Modifiers.Main:GetChildren() do
                 if table.find(Configs["Debuff Priority 3"].Tables, V.Name) then
                     if V:FindFirstChild("Main") and V.Main:FindFirstChild("Button") then
-                        Debuff_Priority_1()
-                        Debuff_Priority_2()
                         NavigationGUISelect(V.Main.Button)
-                        repeat task.wait() until not V.Parent or Loader.Unloaded
                     end
                 end
             end
@@ -1751,14 +1551,21 @@ else
                     pcall(
                         function()
                             if Configs["Auto Vote Debuff"].Value and #OwnGui.Frames.Modifiers.Main:GetChildren() >= 3 then
-                                repeat
+                                if #Configs["Debuff Priority 1"].Tables > 0 then
+                                    wait(3.5)
+                                    Debuff_Priority_1()
+                                end
+                                if #Configs["Debuff Priority 2"].Tables > 0 then
+                                    wait(3.5)
+                                    Debuff_Priority_1()
+                                    Debuff_Priority_2()
+                                end
+                                if #Configs["Debuff Priority 3"].Tables > 0 then
+                                    wait(3.5)
                                     Debuff_Priority_1()
                                     Debuff_Priority_2()
                                     Debuff_Priority_3()
-                                task.wait(0.475)
-                                until not Configs["Auto Vote Debuff"].Value or #OwnGui.Frames.Modifiers.Main:GetChildren() < 3 or Loader.Unloaded
-                                game:GetService("GuiService").GuiNavigationEnabled = false
-                                game:GetService("GuiService").SelectedObject = nil
+                                end
                             end
                         end
                     )
@@ -1773,10 +1580,20 @@ else
                 if Loader.Unloaded then break
                 else
                     if tonumber(OwnGui.HUD.Map.WavesAmount.Text) >= tonumber(Configs["Select Wave"].Value) and Configs["Auto Sell Select Units"].Value and #Configs["Select Units"].Tables > 0 then
-                        for i,v in next, getupvalues(getupvalues(require(game:GetService("StarterPlayer").Modules.Gameplay.UnitManager.UnitManagerHandler).ShowUnitManager)[3].GetAllPlacedUnits)[1]._ActiveUnits do
-                            if i and v and v.Player == game:GetService("Players").LocalPlayer and table.find(Configs["Select Units"].Tables, v.Data.Name) then
-                                game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer("Sell", i)
-                            end
+                        if OwnGui:FindFirstChild("UnitManager") == nil then
+                            NavigationGUISelect(OwnGui.Guides.List.StageInfo.Buttons.UnitManager.Button)
+                        else
+                            pcall(
+                                function()
+                                    if #OwnGui.UnitManager.Holder.Main.List:GetChildren() >= 3 then
+                                        for I, V in next, OwnGui.UnitManager.Holder.Main.List:GetChildren() do
+                                            if V:IsA("Frame") and table.find(Configs["Select Units"].Tables, V.Unit:FindFirstChildOfClass("Frame").Name) then
+                                                game:GetService("ReplicatedStorage").Networking.UnitEvent:FireServer("Sell", V.Name)
+                                            end
+                                        end
+                                    end
+                                end
+                            )
                         end
                     end
                 end
@@ -1822,7 +1639,6 @@ else
                         Game.Time = tick()
                         if Configs["Macro Play"].Value then
                            Configs["Macro Play"]:SetValue(false)
-                           wait(1)
                            Loader:Notify({Title = "Replaying Macro...", Duration = 5, Disable = true})
                            Configs["Macro Play"]:SetValue(true)
                         end
@@ -1851,7 +1667,7 @@ else
             while true and wait() do
                 if Loader.Unloaded then break
                 else
-                    if Configs["Auto Lobby Challenge"].Value and Game.Challenge_Changed and Stage_Type() ~= "Challenge" then
+                    if Configs["Auto Lobby Challenge"].Value and (tonumber(os.date("!*t").min) == 30 or tonumber(os.date("!*t").min) == 0) then
                         Return_Lobby()
                         wait(10)
                     end
@@ -1868,14 +1684,10 @@ else
                     if Configs["Send Webhook"].Value and OwnGui.EndScreen.Enabled and OwnGui.EndScreen.Container.Visible then
                         wait(2)
                         for I, V in next, OwnGui.EndScreen.Container.EndScreen.Main.StageRewards.Main:GetChildren() do
-                            local rarity = "Common"
-                            if V:IsA("Frame") and V.Holder:FindFirstChildOfClass("UIGradient") and V.Holder:FindFirstChildOfClass("UIGradient").Name ~= "Border" then
-                               rarity = V.Holder:FindFirstChildOfClass("UIGradient").Name
-                            end
                             if V:IsA("Frame") and V.Holder.Main:FindFirstChild("Amount") then
-                                table.insert(Game.Webhook, V.Holder.Main.Amount.Text.." "..V.Name.." ["..rarity.."]")
+                                table.insert(Game.Webhook, V.Holder.Main.Amount.Text.." "..V.Name)
                             elseif V:IsA("Frame") and V.Holder.Main:FindFirstChild("Amount") == nil then
-                                table.insert(Game.Webhook, "x1 "..V.Name.." ["..rarity.."]")
+                                table.insert("x1 "..V.Name)
                             end
                         end
                         local Data = game:GetService("HttpService"):JSONEncode({
@@ -1915,9 +1727,7 @@ else
                         })
                         local response = (syn and syn.request) or (http and http.request) or http_request or (fluxus and fluxus.request) or (request)
                         response({Url = Configs["Url"].Value, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = Data})
-                        Game.Send_Webhook = true
                         repeat wait() until not Configs["Send Webhook"].Value or not OwnGui.EndScreen.Enabled or not OwnGui.EndScreen.Container.Visible or Loader.Unloaded
-                        Game.Send_Webhook = false
                         Game.Webhook = {}
                     end
                 end
@@ -1984,25 +1794,10 @@ function Import_File()
                     Configs["Macro File"]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                     for i = 1, #Game.Story_Mode do
                         Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-                        Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                         Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-
-                        if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
-                           Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
-                        end
-                        if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
-                           Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
-                        end
-                        if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
-                           Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
-                        end
                     end
                     for i = 1, #Game.Legend_Stage_Mode do
-                        Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-
-                        if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
-                           Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
-                        end
+                        Configs["Legend Stage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                     end
                 end
             end
@@ -2033,28 +1828,12 @@ function Create_Macro()
 
                 Configs["Macro File"]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                 Configs["Macro File"]:SetValue(Configs["File Name"].Value)
-
                 for i = 1, #Game.Story_Mode do
                     Configs["Story"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-                    Configs["Paragon"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                     Configs["Challenge"..Game.Story_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-
-                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
-                       Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
-                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
-                       Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
-                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
-                       Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
                 end
                 for i = 1, #Game.Legend_Stage_Mode do
-                    Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
-
-                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
-                       Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
-                    end
+                    Configs["Legend Stage"..Game.Legend_Stage_Mode[i]]:SetValues(SetFile:ListFile("CrazyDay/Anime Vanguards/Macro","json"))
                 end
             end
         end
@@ -2085,28 +1864,12 @@ function Delete_Macro()
 
                 Configs["Macro File"]:SetValues(list)
                 Configs["Macro File"]:SetValue(#list > 0 and list[#list] or nil)
-
                 for i = 1, #Game.Story_Mode do
                     Configs["Story"..Game.Story_Mode[i]]:SetValues(list)
-                    Configs["Paragon"..Game.Story_Mode[i]]:SetValues(list)
                     Configs["Challenge"..Game.Story_Mode[i]]:SetValues(list)
-
-                    if Configs["Story"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Story"..Game.Story_Mode[i]].Value)) then
-                       Configs["Story"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
-                    if Configs["Paragon"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Paragon"..Game.Story_Mode[i]].Value)) then
-                       Configs["Paragon"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
-                    if Configs["Challenge"..Game.Story_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["Challenge"..Game.Story_Mode[i]].Value)) then
-                       Configs["Challenge"..Game.Story_Mode[i]]:SetValue(nil)
-                    end
                 end
                 for i = 1, #Game.Legend_Stage_Mode do
-                    Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValues(list)
-
-                    if Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value ~= nil and not isfile(string.format("CrazyDay/Anime Vanguards/Macro/".."%s.json", Configs["LegendStage"..Game.Legend_Stage_Mode[i]].Value)) then
-                       Configs["LegendStage"..Game.Legend_Stage_Mode[i]]:SetValue(nil)
-                    end
+                    Configs["Legend Stage"..Game.Legend_Stage_Mode[i]]:SetValues(list)
                 end
             end
         end
@@ -2275,29 +2038,6 @@ function Unloaded_Loader()
         end
     end
 end
-
-Game.Signals.Notify_Check =
-game:GetService("Players").LocalPlayer.PlayerGui.Notification.Main.ChildAdded:Connect(
-	function(v)
-		local Text = v:WaitForChild("Label").Text
-
-        if Text == "Half Hourly Challenge has been reset!" then
-            Game.Challenge_Changed = true
-            Game.Cannot_Challenge = false
-        elseif Text == "Summon banner has been reset!" then
-            Game.Banner_Changed = true
-        elseif Text == "Unable to go to next act!" and not Game.Cannot_Next then
-            Game.Cannot_Next = true
-            Loader:Notify({Title = "Error", SubContent = "Unable to go to next act!"})
-        elseif Text:match("cannot be retried!") and not Game.Cannot_Retry then
-            Game.Cannot_Retry = true
-            Loader:Notify({Title = "Error", SubContent = "This act cannot be retried!"})
-        elseif Text:match("You haven't unlocked Story") or Text:match("You have already completed this challenge") then
-            Game.Cannot_Challenge = true
-        end
-	end
-)
-
 
 task.spawn(Update_Lock)
 task.spawn(Unloaded_Loader)
