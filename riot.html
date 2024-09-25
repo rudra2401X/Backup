@@ -1868,10 +1868,10 @@ else
                             content = nil,
                             embeds = {
                                 {
-                                    ["title"] = "** 🔔 Webhook Notifaction - แจ้งเตือน ✧₊⁺ **",
+                                    ["title"] = "** 🔔 Webhook Notifaction ✧₊⁺ **",
                                     ["description"] = nil,
                                     ["footer"] = {
-                                        ["text"] = "⏳ Time Result : "..os.date("%c").."\n 🤝 Project Spectrum 8.0 // Made By xZPUHigh, discord.gg/C3MpUNwsDU 🌎",
+                                        ["text"] = "⏳ Time Result : "..os.date("%c").."\n 🤝 Project Spectrum 8.0 // Made By xZPUHigh\n 🌟 discord.gg/C3MpUNwsDU 🌎",
                                         ["icon_url"] = "https://media.discordapp.net/attachments/1232919765094240266/1288197860159914076/received_6268136009875748.jpg?ex=66f44f3f&is=66f2fdbf&hm=a7781334ae91dc5e7d73d148899c1507365a5daf94114d39bcab27e6378f7694&=&format=webp&width=671&height=671"
                                     },
                                     ["thumbnail"] = {
@@ -1882,17 +1882,17 @@ else
                                     },
                                     ["fields"] = {
                                         {
-                                            ["name"] = "**User: ||"..game:GetService("Players").LocalPlayer.Name.."||**",
+                                            ["name"] = "**📊 Account Information ||"..game:GetService("Players").LocalPlayer.Name.."|| 👩🏻‍💼**",
                                             ["value"] = OwnGui.Hotbar.Main.Level.Level.Text,
                                             ["inline"] = false
                                         },
                                         {
-                                            ["name"] = "**Rewards**",
+                                            ["name"] = "**💰 Rewards List 🎁**",
                                             ["value"] = "\n"..table.concat(Game.Webhook,"\n"),
                                             ["inline"] = false
                                         },
                                         {
-                                            ["name"] = "**Match Result ["..End_Stage().."]**",
+                                            ["name"] = "**🎯 Match Result ["..End_Stage().."] 🏆**",
                                             ["value"] = OwnGui.EndScreen.Container.EndScreen.Main.StageStatistics.PlayTime.Amount.Text.." - Wave "..OwnGui.HUD.Map.WavesAmount.Text.."\n"..Stage_Name().." "..OwnGui.EndScreen.Container.EndScreen.Main.StageInfo.Main.ActName.Text.. " - " .. Stage_Type().. " ["..OwnGui.EndScreen.Container.EndScreen.Main.StageInfo.Main.Difficulty.Text.."]",
                                             ["inline"] = false
                                         }
