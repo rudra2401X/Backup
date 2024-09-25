@@ -1,22 +1,149 @@
-local PandaAuth = loadstring(game:HttpGet('https://raw.githubusercontent.com/Panda-Repositories/PandaKS_Libraries/main/library/LuaLib/ROBLOX/PandaSVALLib.lua'))()
--- Initialize the PandaAuth library
-PandaAuth:Initialize({
-    Service = "spectrum",          -- Your service name
-    DisplayName = "Project Spectrum", -- Display name
-    API_Key = "UF108RTaLAE3i3YS",         -- Your API key
-    IsDebug = true,                   -- Enable debug mode to see detailed logs (optional)
-    Allow_BlacklistUsers = false,     -- Disable blacklisted users (optional)
-    Save_Key = false,                 -- Do not save keys to user data (optional)
-    DiagnosticLogs = true             -- Enable diagnostic logs (optional)
+local service = "spectrum" --- Change this to your service name 
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local PandaAuth = loadstring(game:HttpGet("https://pandadevelopment.net/service_api/PandaBetaLib.lua"))()
+local Window = OrionLib:MakeWindow({Name = "Project Spectrum | Key System [By xZPUHigh]", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local Tab = Window:MakeTab({
+	Name = "Key",
+	Icon = "rbxthumb://type=Asset&id=15489113836&w=1000&h=1000",
+	PremiumOnly = false
+})
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key system loaded !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+local Section = Tab:AddSection({
+	Name = "Validate keys"
+})
+local function RandomString(length)
+    local randomString = ""
+    for i = 1, length do
+        local randomNumber = math.random(97, 122)
+        randomString = randomString .. string.char(randomNumber)
+    end
+    return tostring(randomString)
+end
+
+Tab:AddTextbox({
+	Name = "Any key check",
+	Default = "default box input",
+	TextDisappear = true,
+	Callback = function(Value)
+	if PandaAuth:ValidateKey(service, RandomString(10)) == true then
+	print("Imagine bypassing :skull")
+	while true do end
+	else if PandaAuth:ValidateKey(service, Value) then
+	OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key validated !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+else
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key not valid !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+	end
+	end	  
+	end
 })
 
--- Get Key from the initialized service
-local key = PandaAuth:GetKey()
-print("Retrieved Key URL:", key)
-
-local isValid = PandaAuth:ValidateKey("pandadev_d503888153d95e5a642b72af50b6a6a74d211e9e6060f54e868c1bdeb8561622")
-if isValid then
-    print("The key is valid!")
+Tab:AddTextbox({
+	Name = "Normal key check",
+	Default = "default box input",
+	TextDisappear = true,
+	Callback = function(Value)
+	if PandaAuth:ValidateNormalKey(service, RandomString(10)) == true then
+	print("Imagine bypassing :skull")
+	
+	else if PandaAuth:ValidateNormalKey(service, Value) then
+	OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is normal !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
 else
-    print("The key is invalid.")
+if PandaAuth:ValidateKey(service, Value) then 
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is premium, not normal !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+else
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is invalid !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+wait(1)
+LoadScript()
+end
+	end
+	end	  
+	end
+})
+
+Tab:AddTextbox({
+	Name = "Premium key check",
+	Default = "default box input",
+	TextDisappear = true,
+	Callback = function(Value)
+	if PandaAuth:ValidatePremiumKey(service, RandomString(10)) == true then
+	print("Imagine bypassing :skull")
+	
+	else if PandaAuth:ValidatePremiumKey(service, Value) == true then
+	OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is premium !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+wait(1)
+LoadScript()
+else
+if PandaAuth:ValidateKey(service, Value) then 
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is normal, not premium !",
+	Image = "rbxthumb://type=Asset&w=768&h=432&id=13797614864",
+	Time = 5
+})
+else
+OrionLib:MakeNotification({
+	Name = "Genesis",
+	Content = "Key is invalid !",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
+end
+	end
+	end	  
+	end
+})
+
+local Others = Tab:AddSection({
+	Name = "Get Key"
+})
+
+
+Tab:AddButton({
+	Name = "Copy get key link",
+	Callback = function()
+      		setclipboard(PandaAuth:GetLink(service))
+      print(PandaAuth:GetLink(service))
+  	end    
+})
+
+function LoadScript()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/refs/heads/main/riot.html"))()
+Orion:Destroy()
 end
