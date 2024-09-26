@@ -1,6 +1,6 @@
 function Spectrum()
     loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/main/riot.html"))()
-end
+end)
 
 local Type = "Key"
 local UI = "MaggixV2"
