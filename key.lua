@@ -11,7 +11,10 @@ local KeySys =
     )
 )()
 
-local Validated = function() warn("SUCESS!!!") end
+local Validated = function() warn("SUCESS!!!") 
+Callback = function 
+      Spectrum()
+end
 
 local Internal = {
     Service = "spectrum",          -- Your service name
@@ -60,7 +63,3 @@ else
         end
     )
 end
-
-Callback = function() --- What happen if key correct
-    Spectrum()
-  end
