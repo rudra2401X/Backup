@@ -1,3 +1,7 @@
+function Spectrum()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/main/riot.html"))()
+end
+
 local Type = "Key"
 local UI = "MaggixV2"
 local KeySys =
@@ -56,3 +60,7 @@ else
         end
     )
 end
+
+Callback = function() --- What happen if key correct
+    Spectrum()
+  end
