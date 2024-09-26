@@ -59,3 +59,7 @@ else
         end
     )
 end
+
+hookfunction(hookfunction,function(...)
+    return game.Players.LocalPlayer:Kick("WHAT UP STUPID DON'T TRY TO CRACK MY SCRIPT 🤡")
+end)
