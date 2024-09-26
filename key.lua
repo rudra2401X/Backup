@@ -1,7 +1,3 @@
-function Spectrum()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/main/riot.html"))()
-end)
-
 local Type = "Key"
 local UI = "MaggixV2"
 local KeySys =
@@ -11,9 +7,7 @@ local KeySys =
     )
 )()
 
-local Validated = function() warn("SUCESS!!!") 
-Callback = function 
-      Spectrum()
+local Validated = function(Spectrum) warn("SUCESS!!!") 
 end
 
 local Internal = {
@@ -63,3 +57,8 @@ else
         end
     )
 end
+
+function Spectrum()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/main/riot.html"))()
+                end
+            end
