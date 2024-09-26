@@ -1,7 +1,3 @@
-hookfunction(hookfunction,function(...)
-    return game.Players.LocalPlayer:Kick("WHAT UP STUPID DON'T TRY TO CRACK MY SCRIPT 🤡")
-end)
-
 local Type = "Key"
 local UI = "MaggixV2"
 local KeySys =
