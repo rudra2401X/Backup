@@ -7,7 +7,9 @@ local KeySys =
     )
 )()
 
-local Validated = function(Spectrum) warn("SUCESS!!!") 
+local Validated = function(ki)
+    print(ki)
+    return true
 end
 
 local Internal = {
@@ -57,8 +59,3 @@ else
         end
     )
 end
-
-function Spectrum()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/x2CPUz/Backup/main/riot.html"))()
-                end
-            end
