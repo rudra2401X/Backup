@@ -8,7 +8,7 @@ local KeySys =
 )()
 
 local Validated = function()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/x2CPUz/Backup/refs/heads/main/riot.html'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/x2CPUz/Backup/refs/heads/main/yummo.html'))()
     return true
 end
 
@@ -59,5 +59,4 @@ else
         end
     )
 end
-
 
