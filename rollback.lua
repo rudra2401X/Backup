@@ -9,7 +9,7 @@ function Library:CreateWindow(title)
     ScreenGui.Parent = game.CoreGui
     Frame.Parent = ScreenGui
     Frame.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
-    Frame.Size = UDim2.new(0, 200, 0, 100)
+    Frame.Size = UDim2.new(0, 400, 0, 300)
     Frame.Position = UDim2.new(0.5, -200, 0.5, -150)
     Frame.Active = true
     Frame.Draggable = true
@@ -41,7 +41,7 @@ function Library:CreateCheckbox(parent, text, callback)
     local Checkbox = Instance.new("TextButton")
     Checkbox.Parent = parent
     Checkbox.Text = text
-    Checkbox.Size = UDim2.new(0, 45, 0, 30)
+    Checkbox.Size = UDim2.new(0, 150, 0, 30)
     Checkbox.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
     Checkbox.TextColor3 = Color3.new(1, 1, 1)
     Checkbox.Font = Enum.Font.SourceSans
@@ -56,7 +56,7 @@ function Library:CreateDropdown(parent, text, options, callback)
     local Dropdown = Instance.new("TextButton")
     Dropdown.Parent = parent
     Dropdown.Text = text
-    Dropdown.Size = UDim2.new(0, 45, 0, 30)
+    Dropdown.Size = UDim2.new(0, 150, 0, 30)
     Dropdown.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
     Dropdown.TextColor3 = Color3.new(1, 1, 1)
     Dropdown.Font = Enum.Font.SourceSans
