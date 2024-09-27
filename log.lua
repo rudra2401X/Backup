@@ -201,12 +201,12 @@ task.spawn(
 
         if game.PlaceId == 16146832113 then
             for I = 1, 6 do
-                if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then print("Legit") end
+                if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then goto end
                 table.insert(Game.Units, game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)].UnitTemplate.Holder.Main.UnitName.Text)
             end
         else
             for I = 1, 6 do
-                if game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then print("Legit") end
+                if game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then goto end
                 table.insert(Game.Units, game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Main.Units[tostring(I)].UnitTemplate.Holder.Main.UnitName.Text)
             end
         end
@@ -891,7 +891,7 @@ if game.PlaceId == 16146832113 then
     local function Units_On_Slots()
         local Grabs = {}
         for I = 1, 6 do
-            if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then print("Legit") end
+            if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") or game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("UnitTemplate") == nil then goto end
             table.insert(Grabs, game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)].UnitTemplate.Holder.Main.UnitName.Text)
         end
         return Grabs
@@ -900,7 +900,7 @@ if game.PlaceId == 16146832113 then
     task.spawn(
         function()
             for I = 1, 6 do
-                if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") then print("Legit") end
+                if game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)]:FindFirstChild("Locked") then goto end
                 if not Game.Signals[tostring(I).."Added"] then
                     Game.Signals[tostring(I).."Added"] = game:GetService("Players").LocalPlayer.PlayerGui.HUD.Main.Units[tostring(I)].ChildAdded:Connect(
                         function(V)
@@ -1181,7 +1181,7 @@ else
     local function Check_Units(name)
         for I, V in next, OwnGui.Hotbar.Main.Units:GetChildren() do
             if V:IsA("Frame") then
-                if V:FindFirstChild("Locked") or V:FindFirstChild("UnitTemplate") == nil then print("Legit") end
+                if V:FindFirstChild("Locked") or V:FindFirstChild("UnitTemplate") == nil then goto end
                 if V.UnitTemplate.Holder.Main.UnitName.Text == name then
                     return true
                 end
