@@ -135,7 +135,7 @@ TextButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
-wait(5)
+wait(3)
 
 repeat task.wait() until game:IsLoaded() and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LoadingScreen") == nil and game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("LobbyLoadingScreen") == nil
 if game:GetService("CoreGui"):FindFirstChild("Project Spectrum") then return end
