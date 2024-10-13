@@ -168,7 +168,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local Window = Fluent:CreateWindow({
     Title = "PETS GO! ✨ | Project Spectrum 8.0",
-    SubTitle = "by xZPUHigh & Special Edition // discord.gg/C3MpUNwsDU  ",
+    SubTitle = "by xZPUHigh &  Special Edition      [Leftcontrol]",
     TabWidth = 130,
     Size = UDim2.fromOffset(500, 400),
     Acrylic = true, 
