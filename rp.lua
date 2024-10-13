@@ -244,19 +244,6 @@ Tabs.Main:AddParagraph(
     }
 )
 
-local Slider = Tabs.Main:AddSlider("Slider", {
-    Title = "Deley Rolls",
-    Description = "* Recommend Default Is 1 But 0 Is Better",
-    Default = 1, 
-    Min = 0,    
-    Max = 10,  
-    Rounding = 1, 
-    Callback = function(Value)
-        getgenv().SpeedEggs = Value
-    end
-})
-
-
 local Toggle = Tabs.Main:AddToggle("Eggs_RollsValue", {Title = "Auto Rolls [Skip Animation]", Description = "- TEST", Default = false})
 
 Toggle:OnChanged(function()
@@ -278,16 +265,15 @@ function startEggsRollLoop()
     end)
 end
 
-
 local Slider = Tabs.Main:AddSlider("Slider", {
-    Title = "Process Upgrades Speed",
-    Description = "Increase the speed of process refresh or update rate",    
+    Title = "Deley Rolls",
+    Description = "* Recommend Default Is 1 But 0 Is Better",
     Default = 1, 
     Min = 0,    
     Max = 10,  
     Rounding = 1, 
     Callback = function(Value)
-        getgenv().SpeedUpgrades = Value
+        getgenv().SpeedEggs = Value
     end
 })
 
@@ -355,8 +341,19 @@ function startUpgradesRollLoop()
     end)
 end
 
+local Slider = Tabs.Main:AddSlider("Slider", {
+    Title = "Process Upgrades Speed",
+    Description = "Increase the speed of process refresh or update rate",    
+    Default = 1, 
+    Min = 0,    
+    Max = 10,  
+    Rounding = 1, 
+    Callback = function(Value)
+        getgenv().SpeedUpgrades = Value
+    end
+})
 
-local Toggle = Tabs.Main:AddToggle("orbValue", {Title = "Auto Orbs", Default = false})
+local Toggle = Tabs.Main:AddToggle("orbValue", {Title = "Auto Collect Orbs", Default = false})
 
 Toggle:OnChanged(function()
     getgenv().orbValues = Options.orbValue.Value
@@ -401,7 +398,7 @@ function startorbRollLoop()
     Tabs.Main:AddSection("Farm")
 
     local Slider = Tabs.Main:AddSlider("Slider", {
-        Title = "Speed Wait Auto Farm Orbs",
+        Title = "Speed Farm Settings",
         Description = "Adjust the speed at which pets switch between targets during auto farming",
         Default = 1, 
         Min = 0,    
@@ -413,8 +410,8 @@ function startorbRollLoop()
     })
 
     local Dropdown = Tabs.Main:AddDropdown("FarmMode", {
-        Title = "Farming Mode",
-        Values = {"Random", "All Pets Target One"},
+        Title = "Select Mode",
+        Values = {"Random", "Target One"},
         Multi = false,
         Default = 1,
     })
@@ -426,7 +423,7 @@ function startorbRollLoop()
         print("Farming mode changed:", Value)
     end)
     
-    local Toggle = Tabs.Main:AddToggle("AutoFarmorbs", {Title = "Auto Farm Orbs", Default = false})
+    local Toggle = Tabs.Main:AddToggle("AutoFarmorbs", {Title = "Auto Farm", Default = false})
 
     Toggle:OnChanged(function()
         getgenv().AutoFarmorb = Options.AutoFarmorbs.Value
@@ -490,7 +487,7 @@ function startorbRollLoop()
                             }
                             game:GetService("ReplicatedStorage").Network.Breakables_JoinPetBulk:FireServer(unpack(args))
                         end
-                    elseif getgenv().FarmMode == "All Pets Target One" then
+                    elseif getgenv().FarmMode == "Target One" then
                         local targetBreakableNumber = breakableNumbers[math.random(#breakableNumbers)]
                         for _, petName in ipairs(petNames) do
                             local args = {
