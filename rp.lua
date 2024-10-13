@@ -504,11 +504,6 @@ local Slider = Tabs.Main:AddSlider("Slider", {
             end)
         end
 
-    local Toggle = Tabs.Main:AddToggle("Move", {Title = "Instant Move", Default = false})
-    Toggle:OnChanged(function()
-        PetSpeed = Options.f93.Value
-    end)
-
     Tabs.Main:AddSection("Buy")
 
 
