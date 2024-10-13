@@ -792,64 +792,6 @@ Tabs.Misc:AddButton({
 })
 
 Tabs.Misc:AddButton({
-    Title = "Fates Admin",
-    Description = "",
-    Callback = function()
-        Window:Dialog({
-            Title = "fates admin",
-            Content = "Are you sure you want to activate the script?",
-            Buttons = {
-                {
-                    Title = "Yes",
-                    Callback = function()
-
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/fatesc/fates-admin/main/main.lua"))()
-                                    end
-                },
-                {
-                    Title = "No",
-                    Callback = function()
-                    end
-                }
-            }
-        })
-    end
-})
-
-Tabs.Misc:AddButton({
-    Title = "Hydroxide",
-    Description = "",
-    Callback = function()
-        Window:Dialog({
-            Title = "Hydroxide",
-            Content = "Are you sure you want to activate the script?",
-            Buttons = {
-                {
-                    Title = "Yes",
-                    Callback = function()
-
-local owner = "Upbolt"
-local branch = "revision"
-
-local function webImport(file)
-return loadstring(game:HttpGetAsync(("https://raw.githubusercontent.com/%s/Hydroxide/%s/%s.lua"):format(owner, branch, file)), file .. '.lua')()
-end
-
-webImport("init")
-webImport("ui/main")
-                                    end
-                },
-                {
-                    Title = "No",
-                    Callback = function()
-                    end
-                }
-            }
-        })
-    end
-})
-
-Tabs.Misc:AddButton({
     Title = "Simple Spy",
     Description = "",
     Callback = function()
