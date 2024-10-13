@@ -626,7 +626,7 @@ end
     })    
 
 -- Visuals
-Tabs.Shop:AddButton({
+Tabs.Visuals:AddButton({
 	Title = "Infinite Coin",
 	Description = "???",
 	Callback = function()
@@ -636,8 +636,315 @@ end
 
 local Player = Tabs.Misc:AddSection("Players Features")
 
-Tabs.Misc:AddSection("Script")
+local Slider = Tabs.Misc:AddSlider("Slider", {
+    Title = "Walk Speed",
+    Description = "Adjust the speed of a personal player",
+    Default = 16,
+    Min = 0,
+    Max = 500,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end
+})
 
+    Tabs.Misc:AddButton({
+    Title = "Reset Walk Speed",
+    Description = "Reset WalkSpeed normal",
+    Callback = function()
+        Window:Dialog({
+            Title = "Reset Walk Speed",
+            Content = "Are you sure you want to reset the WalkSpeed?",
+            Buttons = {
+                {
+                    Title = "Confirm",
+                    Callback = function()
+               game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+                    end
+                },
+                {
+                    Title = "Cancel",
+                    Callback = function()
+                    end
+                }
+            }
+        })
+    end
+})
+
+
+
+local Slider = Tabs.Misc:AddSlider("Slider", {
+    Title = "Jump Power",
+    Description = "Adjust the Jump Power of a personal player",
+    Default = 50,
+    Min = 0,
+    Max = 500,
+    Rounding = 1,
+    Callback = function(Value)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
+    end
+})
+
+    Tabs.Misc:AddButton({
+    Title = "Reset Jump Power",
+    Description = "Reset JumpPower normal",
+    Callback = function()
+        Window:Dialog({
+            Title = "Reset JumpPower",
+            Content = "Are you sure you want to reset the JumpPower?",
+            Buttons = {
+                {
+                    Title = "Confirm",
+                    Callback = function()
+               game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
+                    end
+                },
+                {
+                    Title = "Cancel",
+                    Callback = function()
+                    end
+                }
+            }
+        })
+    end
+})
+
+
+local Toggle = Tabs.Misc:AddToggle("MyToggle", {Title = "Infinite Jump", Default = false})
+
+Toggle:OnChanged(function()
+    getgenv().InfiniteJumpEnabled = Options.MyToggle.Value
+end)
+
+Options.MyToggle:SetValue(false)
+
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+
+UserInputService.JumpRequest:Connect(function()
+    if getgenv().InfiniteJumpEnabled then
+      
+        if Player.Character and Player.Character:FindFirstChildOfClass('Humanoid') then
+            local Humanoid = Player.Character:FindFirstChildOfClass('Humanoid')
+            Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+
+local Toggle = Tabs.Misc:AddToggle("AntiAFKEnableds", {Title = "Anti AFK", Default = true})
+
+Toggle:OnChanged(function()
+    getgenv().AntiAFKEnabled = Options.AntiAFKEnableds.Value
+
+    if getgenv().AntiAFKEnabled then
+        startAntiAFK()
+    else
+        getgenv().AntiAFKEnabled = false
+    end
+end)
+
+
+function startAntiAFK()
+    spawn(function()
+local VirtualUser = game:service'VirtualUser'
+game:service'Players'.LocalPlayer.Idled:connect(function()
+    while getgenv().AntiAFKEnabled do
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+        print("Prevented AFK kick.")
+    end
+end)
+end)
+end
+
+Tabs.Misc:AddSection("Rejoin & Hop Server Features")
+
+Tabs.Misc:AddButton(
+    {
+        Title = "Rejoin",
+        Description = "Rejoin The Server",
+        Callback = function()
+            Window:Dialog(
+                {
+                    Title = "Teleport",
+                    Content = "Are you sure?",
+                    Buttons = {
+                        {
+                            Title = "Confirm",
+                            Callback = function()
+                                print("Teleported")
+                                game:GetService("TeleportService"):Teleport(
+                                    game.PlaceId,
+                                    game:GetService("Players").LocalPlayer
+                                )
+                            end
+                        },
+                        {
+                            Title = "Cancel",
+                            Callback = function()
+                                print("Cancelled")
+                            end
+                        }
+                    }
+                }
+            )
+        end
+    }
+)
+end
+
+Tabs.Misc:AddButton(
+{
+    Title = "Hop Server",
+    Description = "",
+    Callback = function()
+        Hop()
+    end
+}
+)
+
+function Hop()
+local PlaceID = game.PlaceId
+local AllIDs = {}
+local foundAnything = ""
+local actualHour = os.date("!*t").hour
+local Deleted = false
+function TPReturner()
+    local Site
+    if foundAnything == "" then
+        Site =
+            game.HttpService:JSONDecode(
+            game:HttpGet(
+                "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
+            )
+        )
+    else
+        Site =
+            game.HttpService:JSONDecode(
+            game:HttpGet(
+                "https://games.roblox.com/v1/games/" ..
+                    PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
+            )
+        )
+    end
+    local ID = ""
+    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+        foundAnything = Site.nextPageCursor
+    end
+    local num = 0
+    for i, v in pairs(Site.data) do
+        local Possible = true
+        ID = tostring(v.id)
+        if tonumber(v.maxPlayers) > tonumber(v.playing) then
+            for _, Existing in pairs(AllIDs) do
+                if num ~= 0 then
+                    if ID == tostring(Existing) then
+                        Possible = false
+                    end
+                else
+                    if tonumber(actualHour) ~= tonumber(Existing) then
+                        local delFile =
+                            pcall(
+                            function()
+                                AllIDs = {}
+                                table.insert(AllIDs, actualHour)
+                            end
+                        )
+                    end
+                end
+                num = num + 1
+            end
+            if Possible == true then
+                table.insert(AllIDs, ID)
+                wait()
+                pcall(
+                    function()
+                        wait()
+                        game:GetService("TeleportService"):TeleportToPlaceInstance(
+                            PlaceID,
+                            ID,
+                            game.Players.LocalPlayer
+                        )
+                    end
+                )
+                wait(4)
+            end
+        end
+    end
+end
+function Teleport()
+    while wait() do
+        pcall(
+            function()
+                TPReturner()
+                if foundAnything ~= "" then
+                    TPReturner()
+                end
+            end
+        )
+    end
+end
+Teleport()
+end
+
+Tabs.Misc:AddButton(
+{
+    Title = "Hop Server [ Low Player ]",
+    Description = "",
+    Callback = function()
+        getgenv().AutoTeleport = true
+        getgenv().DontTeleportTheSameNumber = true
+        getgenv().CopytoClipboard = false
+        if not game:IsLoaded() then
+            print("Game is loading waiting...")
+        end
+        local maxplayers = math.huge
+        local serversmaxplayer
+        local goodserver
+        local gamelink =
+            "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+        function serversearch()
+            for _, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink)).data) do
+                if type(v) == "table" and v.playing ~= nil and maxplayers > v.playing then
+                    serversmaxplayer = v.maxPlayers
+                    maxplayers = v.playing
+                    goodserver = v.id
+                end
+            end
+        end
+        function getservers()
+            serversearch()
+            for i, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink))) do
+                if i == "nextPageCursor" then
+                    if gamelink:find("&cursor=") then
+                        local a = gamelink:find("&cursor=")
+                        local b = gamelink:sub(a)
+                        gamelink = gamelink:gsub(b, "")
+                    end
+                    gamelink = gamelink .. "&cursor=" .. v
+                    getservers()
+                end
+            end
+        end
+        getservers()
+        if AutoTeleport then
+            if DontTeleportTheSameNumber then
+                if #game:GetService("Players"):GetPlayers() - 4 == maxplayers then
+                    return warn("It has same number of players (except you)")
+                elseif goodserver == game.JobId then
+                    return warn("Your current server is the most empty server atm")
+                end
+            end
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, goodserver)
+        end
+    end
+}
+)
+
+
+Tabs.Misc:AddSection("Scripts Features")
 
 Tabs.Misc:AddButton({
     Title = "Infinite Yield",
