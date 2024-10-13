@@ -636,34 +636,6 @@ Tabs.Shop:AddButton({
 end
 })
 
-    Tabs.Misc:AddButton({
-        Title = "SimpleSpy",
-        Description = "",
-        Callback = function()
-            Window:Dialog({
-                Title = "SimpleSpy",
-                Content = "Are you sure you want to activate the script?",
-                Buttons = {
-                    {
-                        Title = "Yes",
-                        Callback = function()
-
-                            while true do
-                                game:GetService("Players").LocalPlayer.PlayerGui.Main.Top.Coins.Amount.Text = "1e96"
-                                wait(0)
-                                        end
-                    },
-                    {
-                        Title = "No",
-                        Callback = function()
-                        end
-                    }
-                }
-            })
-        end
-    })
-
-
     local Farm41vfcsd414 = Tabs.Misc:AddSection("Players Features")
 
 
