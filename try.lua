@@ -13,9 +13,8 @@ local Window = Library:CreateWindow{
     Resize = true, -- Resize this ^ Size according to a 1920x1080 screen, good for mobile users but may look weird on some devices
     MinSize = Vector2.new(470, 380),
     Acrylic = true, -- The blur may be detectable, setting this to false disables blur entirely
-    Transparency = false,
-    Theme = "Black",
-    MinimizeKey = Enum.KeyCode.LeftControl -- Used when theres no MinimizeKeybind
+    Theme = "Vynixu",
+    MinimizeKey = Enum.KeyCode.RightControl -- Used when theres no MinimizeKeybind
 }
 
 local Tabs = {
@@ -25,9 +24,26 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
 }
 
-local Options = Fluent.Options
+local Tabs = {
+    Main = Window:CreateTab{
+        Title = "General",
+        Icon = "home"
+    },
+    Script = Window:CreateTab{
+        Title = "Script",
+        Icon = "scroll"
+    },
+    game = Window:CreateTab{
+        Title = "Game",
+        Icon = "usb"
+    },
+    Settings = Window:CreateTab{
+        Title = "Settings",
+        Icon = "settings"
+    }
+}
 
-do
+local Options = Library.Options
 
 Tabs.Main:AddSection("Main Features")
 
