@@ -636,130 +636,8 @@ end
 
 local Player = Tabs.Misc:AddSection("Players Features")
 
-local Slider = Tabs.Misc:AddSlider("Slider", {
-    Title = "WalkSpeed",
-    Description = "Adjust the speed of a personal player",
-    Default = 16,
-    Min = 0,
-    Max = 500,
-    Rounding = 1,
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
-    end
-})
+Tabs.Misc:AddSection("Script")
 
-    Tabs.Misc:AddButton({
-    Title = "Reset WalkSpeed",
-    Description = "Reset WalkSpeed normal",
-    Callback = function()
-        Window:Dialog({
-            Title = "Reset WalkSpeed",
-            Content = "Are you sure you want to reset the WalkSpeed?",
-            Buttons = {
-                {
-                    Title = "Confirm",
-                    Callback = function()
-               game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
-                    end
-                },
-                {
-                    Title = "Cancel",
-                    Callback = function()
-                    end
-                }
-            }
-        })
-    end
-})
-
-
-
-local Slider = Tabs.Misc:AddSlider("Slider", {
-    Title = "JumpPower",
-    Description = "Adjust the JumpPower of a personal player",
-    Default = 50,
-    Min = 0,
-    Max = 500,
-    Rounding = 1,
-    Callback = function(Value)
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
-    end
-})
-
-    Tabs.Misc:AddButton({
-    Title = "Reset JumpPower",
-    Description = "Reset JumpPower normal",
-    Callback = function()
-        Window:Dialog({
-            Title = "Reset JumpPower",
-            Content = "Are you sure you want to reset the JumpPower?",
-            Buttons = {
-                {
-                    Title = "Confirm",
-                    Callback = function()
-               game.Players.LocalPlayer.Character.Humanoid.JumpPower = 50
-                    end
-                },
-                {
-                    Title = "Cancel",
-                    Callback = function()
-                    end
-                }
-            }
-        })
-    end
-})
-
-
-local Toggle = Tabs.Misc:AddToggle("MyToggle", {Title = "InfiniteJump", Default = false})
-
-Toggle:OnChanged(function()
-    getgenv().InfiniteJumpEnabled = Options.MyToggle.Value
-end)
-
-Options.MyToggle:SetValue(false)
-
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-
-UserInputService.JumpRequest:Connect(function()
-    if getgenv().InfiniteJumpEnabled then
-      
-        if Player.Character and Player.Character:FindFirstChildOfClass('Humanoid') then
-            local Humanoid = Player.Character:FindFirstChildOfClass('Humanoid')
-            Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-        end
-    end
-end)
-
-
-local Toggle = Tabs.Misc:AddToggle("AntiAFKEnableds", {Title = "Anti AFK", Default = true})
-
-Toggle:OnChanged(function()
-    getgenv().AntiAFKEnabled = Options.AntiAFKEnableds.Value
-
-    if getgenv().AntiAFKEnabled then
-        startAntiAFK()
-    else
-        getgenv().AntiAFKEnabled = false
-    end
-end)
-
-
-function startAntiAFK()
-    spawn(function()
-local VirtualUser = game:service'VirtualUser'
-game:service'Players'.LocalPlayer.Idled:connect(function()
-    while getgenv().AntiAFKEnabled do
-        VirtualUser:CaptureController()
-        VirtualUser:ClickButton2(Vector2.new())
-        print("Prevented AFK kick.")
-    end
-end)
-end)
-end
-
-local Script = Tabs.Misc:AddSection("Scripts Features")
 
 Tabs.Misc:AddButton({
     Title = "Infinite Yield",
@@ -787,7 +665,7 @@ Tabs.Misc:AddButton({
 })
 
 Tabs.Misc:AddButton({
-    Title = "fates admin",
+    Title = "Fates Admin",
     Description = "",
     Callback = function()
         Window:Dialog({
@@ -845,11 +723,11 @@ webImport("ui/main")
 })
 
 Tabs.Misc:AddButton({
-    Title = "SimpleSpy",
+    Title = "Simple Spy",
     Description = "",
     Callback = function()
         Window:Dialog({
-            Title = "SimpleSpy",
+            Title = "Simple Spy",
             Content = "Are you sure you want to activate the script?",
             Buttons = {
                 {
@@ -870,11 +748,11 @@ Tabs.Misc:AddButton({
 })
 
 Tabs.Misc:AddButton({
-    Title = "Dex V4",
+    Title = "Dark Dex V4",
     Description = "",
     Callback = function()
         Window:Dialog({
-            Title = "Dex V4",
+            Title = "Dark Dex V4",
             Content = "Are you sure you want to activate the script?",
             Buttons = {
                 {
@@ -895,11 +773,11 @@ Tabs.Misc:AddButton({
 })
 
 Tabs.Misc:AddButton({
-    Title = "Dex V3",
+    Title = "Dark Dex V3",
     Description = "",
     Callback = function()
         Window:Dialog({
-            Title = "Dex V3",
+            Title = "Dark Dex V3",
             Content = "Are you sure you want to activate the script?",
             Buttons = {
                 {
@@ -918,314 +796,6 @@ Tabs.Misc:AddButton({
         })
     end
 })
-
-
-Tabs.Misc:AddButton(
-    {
-        Title = "Admin Commands (UI)",
-        Description = nil,
-        Callback = function()
-            Window:Dialog(
-                {
-                    Title = "Open Admin Commands GUI",
-                    Content = "you really wannt to open admin commands gui right?",
-                    Buttons = {
-                        {
-                            Title = "Sure",
-                            Callback = function()
-                                loadstring(
-                                    game:HttpGet(
-                                        ("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"),
-                                        true
-                                    )
-                                )()
-                            end
-                        },
-                        {
-                            Title = "Cancel",
-                            Callback = function()
-                                print("Cancelled")
-                            end
-                        }
-                    }
-                }
-            )
-        end
-    }
-)
-
-local Functions = Tabs.Misc:AddSection("Functions Features")
-
-Tabs.Misc:AddButton(
-    {
-        Title = "Rejoin",
-        Description = "Rejoin The Server",
-        Callback = function()
-            Window:Dialog(
-                {
-                    Title = "Teleport",
-                    Content = "Are you sure?",
-                    Buttons = {
-                        {
-                            Title = "Confirm",
-                            Callback = function()
-                                print("Teleported")
-                                game:GetService("TeleportService"):Teleport(
-                                    game.PlaceId,
-                                    game:GetService("Players").LocalPlayer
-                                )
-                            end
-                        },
-                        {
-                            Title = "Cancel",
-                            Callback = function()
-                                print("Cancelled")
-                            end
-                        }
-                    }
-                }
-            )
-        end
-    }
-)
-end
-
-Tabs.Misc:AddButton(
-{
-    Title = "Hop Server",
-    Description = "",
-    Callback = function()
-        Hop()
-    end
-}
-)
-
-function Hop()
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-function TPReturner()
-    local Site
-    if foundAnything == "" then
-        Site =
-            game.HttpService:JSONDecode(
-            game:HttpGet(
-                "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
-            )
-        )
-    else
-        Site =
-            game.HttpService:JSONDecode(
-            game:HttpGet(
-                "https://games.roblox.com/v1/games/" ..
-                    PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
-            )
-        )
-    end
-    local ID = ""
-    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-        foundAnything = Site.nextPageCursor
-    end
-    local num = 0
-    for i, v in pairs(Site.data) do
-        local Possible = true
-        ID = tostring(v.id)
-        if tonumber(v.maxPlayers) > tonumber(v.playing) then
-            for _, Existing in pairs(AllIDs) do
-                if num ~= 0 then
-                    if ID == tostring(Existing) then
-                        Possible = false
-                    end
-                else
-                    if tonumber(actualHour) ~= tonumber(Existing) then
-                        local delFile =
-                            pcall(
-                            function()
-                                AllIDs = {}
-                                table.insert(AllIDs, actualHour)
-                            end
-                        )
-                    end
-                end
-                num = num + 1
-            end
-            if Possible == true then
-                table.insert(AllIDs, ID)
-                wait()
-                pcall(
-                    function()
-                        wait()
-                        game:GetService("TeleportService"):TeleportToPlaceInstance(
-                            PlaceID,
-                            ID,
-                            game.Players.LocalPlayer
-                        )
-                    end
-                )
-                wait(4)
-            end
-        end
-    end
-end
-function Teleport()
-    while wait() do
-        pcall(
-            function()
-                TPReturner()
-                if foundAnything ~= "" then
-                    TPReturner()
-                end
-            end
-        )
-    end
-end
-Teleport()
-end
-
-Tabs.Misc:AddButton(
-{
-    Title = "Hop Server [ Low Player ]",
-    Description = "",
-    Callback = function()
-        getgenv().AutoTeleport = true
-        getgenv().DontTeleportTheSameNumber = true
-        getgenv().CopytoClipboard = false
-        if not game:IsLoaded() then
-            print("Game is loading waiting...")
-        end
-        local maxplayers = math.huge
-        local serversmaxplayer
-        local goodserver
-        local gamelink =
-            "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
-        function serversearch()
-            for _, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink)).data) do
-                if type(v) == "table" and v.playing ~= nil and maxplayers > v.playing then
-                    serversmaxplayer = v.maxPlayers
-                    maxplayers = v.playing
-                    goodserver = v.id
-                end
-            end
-        end
-        function getservers()
-            serversearch()
-            for i, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink))) do
-                if i == "nextPageCursor" then
-                    if gamelink:find("&cursor=") then
-                        local a = gamelink:find("&cursor=")
-                        local b = gamelink:sub(a)
-                        gamelink = gamelink:gsub(b, "")
-                    end
-                    gamelink = gamelink .. "&cursor=" .. v
-                    getservers()
-                end
-            end
-        end
-        getservers()
-        if AutoTeleport then
-            if DontTeleportTheSameNumber then
-                if #game:GetService("Players"):GetPlayers() - 4 == maxplayers then
-                    return warn("It has same number of players (except you)")
-                elseif goodserver == game.JobId then
-                    return warn("Your current server is the most empty server atm")
-                end
-            end
-            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, goodserver)
-        end
-    end
-}
-)
-
-local White =
-Tabs.Misc:AddToggle(
-"White",
-{Title = "White Screen Mode", Description = "Reduce GPU/CPU Very Recommend!", Default = false}
-)
-
-White:OnChanged(
-function()
-    print("lol", Options.White.Value)
-end
-)
-
-Options.White:SetValue(false)
-
-local Black =
-Tabs.Misc:AddToggle(
-"Black",
-{
-    Title = "Black Screen Mode",
-    Description = "Too same with White Screen but VERY COOL and Easy on the eyes",
-    Default = false
-}
-)
-
-Black:OnChanged(
-function()
-    print("lol", Options.Black.Value)
-end
-)
-
-Options.Black:SetValue(false)
-
-local name =
-Tabs.Misc:AddToggle(
-"name",
-{
-    Title = "Hide Name",
-    Description = "people can't see your name that good for protect your form report nigga",
-    Default = false
-}
-)
-
-name:OnChanged(
-function()
-    print("lol", Options.name.Value)
-end
-)
-
-Options.name:SetValue(false)
-
-local rtx = Tabs.Misc:AddToggle("rtx", {Title = "FPS Booster (1000 FPS++)", Default = false})
-
-rtx:OnChanged(
-function()
-    print("lol", Options.rtx.Value)
-end
-)
-
-Options.rtx:SetValue(false)
-
-local smooth =
-Tabs.Misc:AddToggle(
-"smooth",
-{
-    Title = "Smooth Graphics (Like FREE FIRE :D)",
-    Description = "you wanna play free fire on roblox right? enable this function nigga",
-    Default = false
-}
-)
-
-smooth:OnChanged(
-function()
-    print("lol", Options.smooth.Value)
-end
-)
-
-Options.name:SetValue(false)
-
-local SetFPS =
-Tabs.Misc:AddDropdown(
-"SetFPS",
-{
-    Title = "Set FPS (Very Recommend!)",
-    Values = {"10", "30", "60", "120", "200", "300"},
-    Multi = false,
-    Default = 300
-}
-)
 
 
 local Webhook = Tabs.Webhook:AddSection("Webhook Features")
