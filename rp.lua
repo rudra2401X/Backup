@@ -128,7 +128,7 @@ messageLabel.Size = UDim2.new(1, -20, 1, -30)
 messageLabel.Position = UDim2.new(0, 10, 0, 10)
 messageLabel.Text = "Welcome To Project Spectrum!"
 messageLabel.Font = Enum.Font.Gotham
-messageLabel.TextSize = 11
+messageLabel.TextSize = 16
 messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 messageLabel.BackgroundTransparency = 1
 messageLabel.TextWrapped = true
@@ -215,7 +215,7 @@ local UserInputService = game:GetService("UserInputService")
 
 local Window = Fluent:CreateWindow({
     Title = "PETS GO! ✨ | Project Spectrum 8.0",
-    SubTitle = "by xZPUHigh &  Special Edition               [Leftcontrol]",
+    SubTitle = "by xZPUHigh & Special Edition",
     TabWidth = 130,
     Size = UDim2.fromOffset(500, 400),
     Acrylic = true, 
