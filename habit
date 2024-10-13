@@ -501,7 +501,7 @@ function startorbRollLoop()
 
     local Slider = Tabs.Auto:AddSlider("Slider", {
         Title = "Farming Settings",
-        Description = "Adjust the speed at which pets switch between targets during auto farming",
+        Description = "* Adjust the speed at which pets switch between targets during auto farming",
         Default = 1, 
         Min = 0,    
         Max = 10,  
@@ -579,8 +579,8 @@ end
     end
     
     local Slider = Tabs.Shop:AddSlider("Slider", {
-        Title = "Number Buy Potion Crafting Machine",
-        Description = "The number you want to buy from the Potion Crafting Machine store in numerical order",
+        Title = "Select Method Number Buy Potion Crafting",
+        Description = "* The number you want to buy from the Potion Crafting Machine store in numerical order",
         Default = 1,
         Min = minValue, 
         Max = maxValue, 
@@ -601,7 +601,7 @@ end
     end
     
     Tabs.Shop:AddButton({
-        Title = "Potion Crafting Machine [❌]",
+        Title = "Potion Crafting Machine",
         Callback = function()
             local potionCraftingMachineNumber = getgenv().PotionCraftingMachinenumber 
             local numbers = {}
@@ -624,6 +624,152 @@ end
             game:GetService("ReplicatedStorage").Network.CraftingMachine_Craft:InvokeServer(unpack(args))               
         end
     })    
+
+    Tabs.Shop:AddSection("Index Merchant Features")
+
+    local Toggle = Tabs.Shop:AddToggle("AutoBuyIndexMerchant", {Title = "Auto Buy Index Merchant", Default = false})
+
+Toggle:OnChanged(function()
+    getgenv().AutoBuyIndexMerchant = Options.AutoBuyIndexMerchant.Value
+
+    if getgenv().AutoBuyIndexMerchant then
+        AutoBuyIndexMerchantLoop()
+    else
+        getgenv().AutoBuyIndexMerchant = false
+    end
+end)
+
+function AutoBuyIndexMerchantLoop()
+    spawn(function()
+        while getgenv().AutoBuyIndexMerchant do 
+            wait(3)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 1
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args))    
+            llocal args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 1
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 1
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 2
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 2
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 2
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+            wait(3)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 3
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args))    
+            llocal args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 3
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 3
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 4
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 4
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 4
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+            wait(3)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 5
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args))    
+            llocal args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 5
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 5
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 6
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 6
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+wait(1)
+            local args = {
+                [1] = "AdvancedIndexMerchant",
+                [2] = 6
+            }
+            
+            game:GetService("ReplicatedStorage").Network.Merchant_RequestPurchase:InvokeServer(unpack(args)) 
+
+        end
+    end)
+
+
 
 -- Visuals
 Tabs.Visuals:AddButton({
