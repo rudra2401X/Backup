@@ -212,6 +212,7 @@ local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHi
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/Local.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/Manager.lua"))()
 local UserInputService = game:GetService("UserInputService")
+local CalculateSpeedMultiplier = Client.PlayerPet.CalculateSpeedMultiplier
 
 local Window = Fluent:CreateWindow({
     Title = "PETS GO! ✨ | Project Spectrum 8.0",
@@ -353,76 +354,8 @@ local Slider = Tabs.Main:AddSlider("Slider", {
     end
 })
 
-local Toggle = Tabs.Main:AddToggle("orbValue", {Title = "Auto Collect Orbs", Default = false})
-
-Toggle:OnChanged(function()
-    getgenv().orbValues = Options.orbValue.Value
-
-    if getgenv().orbValues then
-        startorbRollLoop()
-    else
-        getgenv().orbValues = false
-    end
-end)
-
-function startorbRollLoop()
-    spawn(function()
-        while wait() do
-                if getgenv().orbValues then
-             local orbsFolder = workspace.__THINGS.Orbs
-
-                local orbNumbers = {}
-                for _, orb in pairs(orbsFolder:GetChildren()) do
-                    table.insert(orbNumbers, orb.Name) 
-                end
-                
-                for _, orbNumber in pairs(orbNumbers) do
-                    local args = {
-                        [1] = {
-                            [1] = tonumber(orbNumber) 
-                        }
-                    }
-                
-                    game:GetService("ReplicatedStorage").Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(args))
-                
-                    local orbToRemove = orbsFolder:FindFirstChild(orbNumber)
-                    if orbToRemove then
-                        orbToRemove:Destroy()
-                    end
-                end
-                end
-            end
-        end)
-    end
-
     Tabs.Main:AddSection("Farm")
 
-    local Slider = Tabs.Main:AddSlider("Slider", {
-        Title = "Speed Farm Settings",
-        Description = "Adjust the speed at which pets switch between targets during auto farming",
-        Default = 1, 
-        Min = 0,    
-        Max = 10,  
-        Rounding = 1, 
-        Callback = function(Value)
-            getgenv().SpeedAutoFarmOrbs = Value
-        end
-    })
-
-    local Dropdown = Tabs.Main:AddDropdown("FarmMode", {
-        Title = "Select Mode",
-        Values = {"Random", "Target One"},
-        Multi = false,
-        Default = 1,
-    })
-    
-    Dropdown:SetValue("Random")
-    
-    Dropdown:OnChanged(function(Value)
-        getgenv().FarmMode = Value
-        print("Farming mode changed:", Value)
-    end)
-    
     local Toggle = Tabs.Main:AddToggle("AutoFarmorbs", {Title = "Auto Farm", Default = false})
 
     Toggle:OnChanged(function()
@@ -503,6 +436,78 @@ function startorbRollLoop()
         end)
     end
     
+    local Slider = Tabs.Main:AddSlider("Slider", {
+        Title = "Speed Farm Settings",
+        Description = "Adjust the speed at which pets switch between targets during auto farming",
+        Default = 1, 
+        Min = 0,    
+        Max = 10,  
+        Rounding = 1, 
+        Callback = function(Value)
+            getgenv().SpeedAutoFarmOrbs = Value
+        end
+    })
+
+    local Dropdown = Tabs.Main:AddDropdown("FarmMode", {
+        Title = "Select Mode",
+        Values = {"Random", "Target One"},
+        Multi = false,
+        Default = 1,
+    })
+    
+    Dropdown:SetValue("Random")
+    
+    Dropdown:OnChanged(function(Value)
+        getgenv().FarmMode = Value
+        print("Farming mode changed:", Value)
+    end)
+    
+    local Toggle = Tabs.Main:AddToggle("orbValue", {Title = "Auto Collect Orbs", Default = false})
+
+    Toggle:OnChanged(function()
+        getgenv().orbValues = Options.orbValue.Value
+    
+        if getgenv().orbValues then
+            startorbRollLoop()
+        else
+            getgenv().orbValues = false
+        end
+    end)
+    
+    function startorbRollLoop()
+        spawn(function()
+            while wait() do
+                    if getgenv().orbValues then
+                 local orbsFolder = workspace.__THINGS.Orbs
+    
+                    local orbNumbers = {}
+                    for _, orb in pairs(orbsFolder:GetChildren()) do
+                        table.insert(orbNumbers, orb.Name) 
+                    end
+                    
+                    for _, orbNumber in pairs(orbNumbers) do
+                        local args = {
+                            [1] = {
+                                [1] = tonumber(orbNumber) 
+                            }
+                        }
+                    
+                        game:GetService("ReplicatedStorage").Network:FindFirstChild("Orbs: Collect"):FireServer(unpack(args))
+                    
+                        local orbToRemove = orbsFolder:FindFirstChild(orbNumber)
+                        if orbToRemove then
+                            orbToRemove:Destroy()
+                        end
+                    end
+                    end
+                end
+            end)
+        end
+
+    local Toggle = Tabs.Main:AddToggle("Move", {Title = "Instant Move", Default = false})
+    Toggle:OnChanged(function()
+        PetSpeed = Options.f93.Value
+    end)
 
     Tabs.Main:AddSection("Buy")
 
